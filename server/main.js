@@ -1,13 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { LinksCollection } from '/imports/api/links';
-import { PlayersCollection } from '../imports/api/players';
 
 async function insertLink({ title, url }) {
   await LinksCollection.insertAsync({ title, url, createdAt: new Date() });
-}
-
-async function insertPlayer({ name, race, DNDclass }) {
-  await PlayersCollection.insertAsync({ name, race, DNDclass, createdAt: new Date() });
 }
 
 Meteor.startup(async () => {
@@ -34,23 +29,9 @@ Meteor.startup(async () => {
     });
   }
 
-  if (await PlayersCollection.find().countAsync() === 0) {
-    await insertPlayer({
-      name: 'Bilbo Baggins',
-      race: 'Hobbit',
-      DNDclass: 'Rogue',
-    });
-  };
-    
-
-
   // We publish the entire Links collection to all clients.
   // In order to be fetched in real-time to the clients
   Meteor.publish("links", function () {
     return LinksCollection.find();
-  });
-
-  Meteor.publish("players", function () {
-    return PlayersCollection.find();
   });
 });
