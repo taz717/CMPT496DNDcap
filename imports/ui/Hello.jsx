@@ -1,16 +1,33 @@
-import React, { useState } from 'react';
+import { Meteor } from "meteor/meteor";
+import React, { useState } from "react";
+import { TextField, Button } from "@mui/material";
 
 export const Hello = () => {
-  const [counter, setCounter] = useState(0);
+	const [counter, setCounter] = useState(0);
 
-  const increment = () => {
-    setCounter(counter + 1);
-  };
+	const increment = () => {
+		setCounter(counter + 1);
+	};
 
-  return (
-    <div>
-      <button onClick={increment}>Click Me</button>
-      <p>You've pressed the button {counter} times.</p>
-    </div>
-  );
+	const BilboID = Meteor.call("CharacterCollection.getId", {
+		name: "Bilbo Baggins",
+	});
+
+	const addWeapon = () => {
+		Meteor.call(
+			"CharacterCollection.addEquipment",
+			BilboID,
+			"weapons",
+			"Sting"
+		);
+	};
+
+	return (
+		<div>
+			<TextField id="standard-basic" label="Weapon" variant="standard" />
+			<Button variant="contained" onClick={console.log("Yeet")}>
+				Add
+			</Button>
+		</div>
+	);
 };
