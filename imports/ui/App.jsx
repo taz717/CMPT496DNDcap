@@ -1,11 +1,16 @@
-import React from 'react';
-import { Hello } from './Hello.jsx';
-import { Info } from './Info.jsx';
+import React from "react";
+import { insertCharacter } from "../api/CharacterCollection";
 
-export const App = () => (
-  <div>
-    <h1>Welcome to Meteor!</h1>
-    <Hello/>
-    <Info/>
-  </div>
-);
+export const App = () => {
+	const addCharacter = () => {
+		Meteor.subscribe("characters");
+		Meteor.call("character.insert", { name: "Test", class: "fighter" });
+	};
+
+	return (
+		<div>
+			<h1>Welcome to Meteor!</h1>
+			<button onClick={addCharacter}>Add Character</button>
+		</div>
+	);
+};
