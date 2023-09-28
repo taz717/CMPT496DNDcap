@@ -3,10 +3,7 @@ import {
 	PlayerCollection,
 	insertPlayer,
 } from "../imports/api/PlayerCollection";
-import {
-	CharacterCollection,
-	insertCharacter,
-} from "../imports/api/CharacterCollection";
+import { CharacterCollection } from "../imports/api/CharacterCollection";
 
 // export async function insertCharacter(characterObject) {
 // 	await CharacterCollection.insertAsync(characterObject);
