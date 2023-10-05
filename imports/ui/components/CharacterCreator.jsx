@@ -1,6 +1,3 @@
 import React from "react";
+import { CharacterCollection } from "../api/CharacterCollection";
 import { useFind, useSubscribe } from "meteor/react-meteor-data";
-
-export const Info = () => {
-	return <h1>Info Screen</h1>;
-};
