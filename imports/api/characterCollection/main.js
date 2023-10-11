@@ -157,6 +157,7 @@ Meteor.methods({
 		// check the ID
 		check(characterID, String);
 
+		// delete
 		CharacterCollection.removeAsync(characterID);
 	},
 
@@ -165,11 +166,13 @@ Meteor.methods({
 		// check the ID
 		check(characterID, String);
 
+		// get
 		return CharacterCollection.findOneAsync(characterID);
 	},
 
 	// Method to get all characters from the database
 	"character.getAll"() {
-		return CharacterCollection.findAsync({});
+		// get
+		return CharacterCollection.find({}).fetch();
 	},
 });

@@ -98,4 +98,79 @@ describe("CharacterCollection", function () {
 		// Restore the collection
 		StubCollections.restore();
 	});
+
+	it("Character delete from the DB", function () {
+		// Stub the collection (so we don't make a real db call)
+		StubCollections.stub(CharacterCollection);
+
+		// Call insert for set up
+		Meteor.call("character.insert", bilboBaggins);
+
+		const character = CharacterCollection.findOne({
+			name: "Bilbo Baggins",
+		});
+
+		// Verify that the insert does what we expected
+		assert.strictEqual(character.name, "Bilbo Baggins");
+
+		// Call the method we are testing
+		Meteor.call("character.delete", character._id);
+
+		// Verify that the method does what we expected
+		const deletedCharacter = CharacterCollection.findOne({
+			name: "Bilbo Baggins",
+		});
+		assert.strictEqual(deletedCharacter, undefined);
+
+		// Restore the collection
+		StubCollections.restore();
+	});
+
+	it("Character get from the DB", function () {
+		// Stub the collection (so we don't make a real db call)
+		StubCollections.stub(CharacterCollection);
+
+		// Call insert for set up
+		Meteor.call("character.insert", bilboBaggins);
+
+		const character = CharacterCollection.findOne({
+			name: "Bilbo Baggins",
+		});
+
+		// Verify that the insert does what we expected
+		assert.strictEqual(character.name, "Bilbo Baggins");
+
+		// Call the method we are testing
+		const foundCharacter = Meteor.call("character.get", character._id);
+
+		// Verify that the method does what we expected
+		assert.strictEqual(foundCharacter.name, "Bilbo Baggins");
+
+		// Restore the collection
+		StubCollections.restore();
+	});
+
+	it("Character get all from the DB", function () {
+		// Stub the collection (so we don't make a real db call)
+		StubCollections.stub(CharacterCollection);
+
+		// Call insert for set up
+		Meteor.call("character.insert", bilboBaggins);
+
+		const character = CharacterCollection.findOne({
+			name: "Bilbo Baggins",
+		});
+
+		// Verify that the insert does what we expected
+		assert.strictEqual(character.name, "Bilbo Baggins");
+
+		// Call the method we are testing
+		const foundCharacters = Meteor.call("character.getAll");
+
+		// Verify that the method does what we expected
+		assert.strictEqual(foundCharacters.length, 1);
+
+		// Restore the collection
+		StubCollections.restore();
+	});
 });
