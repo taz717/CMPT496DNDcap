@@ -173,4 +173,32 @@ describe("CharacterCollection", function () {
 		// Restore the collection
 		StubCollections.restore();
 	});
+
+	it("Character get character saving throw from the DB", function () {
+		// Stub the collection (so we don't make a real db call)
+		StubCollections.stub(CharacterCollection);
+
+		// Call insert for set up
+		Meteor.call("character.insert", bilboBaggins);
+
+		const character = CharacterCollection.findOne({
+			name: "Bilbo Baggins",
+		});
+
+		// Verify that the insert does what we expected
+		assert.strictEqual(character.name, "Bilbo Baggins");
+
+		// Call the method we are testing
+		const foundCharacter = Meteor.call(
+			"character.getSavingThrow",
+			character._id,
+			"strength"
+		);
+
+		// Verify that the method does what we expected
+		assert.strictEqual(foundCharacter.savingThrows.strength, -1);
+
+		// Restore the collection
+		StubCollections.restore();
+	});
 });

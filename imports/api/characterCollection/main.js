@@ -60,6 +60,14 @@ CharacterCollection.schema = new SimpleSchema({
 	"skills.sleightOfHand": Number,
 	"skills.stealth": Number,
 	"skills.survival": Number,
+
+	// one to many (2) to many
+	equipped: Object,
+	"equipped.weapons": { type: Array, optional: true },
+	"equipped.weapons.$": { type: String, optional: true },
+	"equipped.armor": { type: Array, optional: true },
+	"equipped.armor.$": { type: String, optional: true },
+
 	// one to many (6) to many
 	///////////////////////////////////////////////////////////////////////////
 	equipment: Object,
@@ -124,6 +132,7 @@ Meteor.methods({
 		CharacterCollection.insertAsync(characterObject);
 	},
 
+	// TODO FIX UPDATES TO WORK WITH OBJECT STRUCTURE
 	// Method to update a character in the database
 	"character.update"(characterID, characterStat, characterValue) {
 		// check the Object
@@ -174,5 +183,80 @@ Meteor.methods({
 	"character.getAll"() {
 		// get
 		return CharacterCollection.find({}).fetch();
+	},
+
+	"character.getSavingThrow"(characterID, savingThrow) {
+		// check the ID
+		check(characterID, String);
+		check(savingThrow, String);
+
+		// get
+		return CharacterCollection.findOneAsync(characterID, {
+			[savingThrow]: 1,
+		});
+	},
+
+	"character.getSkill"(characterID, skill) {
+		// check the ID
+		check(characterID, String);
+		check(skill, String);
+
+		// get
+		return CharacterCollection.findOneAsync(characterID, {
+			[skill]: 1,
+		});
+	},
+
+	"character.getEquipment"(characterID, equipment) {
+		// check the ID
+		check(characterID, String);
+		check(equipment, String);
+
+		// get
+		return CharacterCollection.findOneAsync(characterID, {
+			[equipment]: 1,
+		});
+	},
+
+	"Character.findEquipementByName"(characterID, type, equipmentName) {
+		// check the ID
+		check(characterID, String);
+		check(type, String);
+		check(equipmentName, String);
+
+		// get
+		return CharacterCollection.findOneAsync(characterID, {
+			[type]: { $elemMatch: { name: equipmentName } },
+		});
+	},
+
+	"character.getKnownSpells"(characterID) {
+		// check the ID
+		check(characterID, String);
+
+		// get
+		return CharacterCollection.findOneAsync(characterID, {
+			knownSpells: 1,
+		});
+	},
+
+	"character.getPreparedSpells"(characterID) {
+		// check the ID
+		check(characterID, String);
+
+		// get
+		return CharacterCollection.findOneAsync(characterID, {
+			preparedSpells: 1,
+		});
+	},
+
+	"character.getDeathSaves"(characterID) {
+		// check the ID
+		check(characterID, String);
+
+		// get
+		return CharacterCollection.findOneAsync(characterID, {
+			deathSaves: 1,
+		});
 	},
 });
