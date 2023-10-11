@@ -3,7 +3,7 @@ import { check } from "meteor/check";
 import SimpleSchema from "simpl-schema";
 
 // Create a new Mongo collection for characters
-export default CharacterCollection = new Mongo.Collection("characters");
+export const CharacterCollection = new Mongo.Collection("characters");
 
 // Creating a Schema for the CharacterCollection
 CharacterCollection.schema = new SimpleSchema({
@@ -85,23 +85,16 @@ CharacterCollection.schema = new SimpleSchema({
 
 	// one to many (2) to many
 	equipped: Object,
-	"equipped.weapons": { type: Array, optional: true },
-	"equipped.weapons.$": { type: String, optional: true },
-	"equipped.armor": { type: Array, optional: true },
-	"equipped.armor.$": { type: String, optional: true },
+	"equipped.weapons": { type: Array },
+	"equipped.weapons.$": { type: Object },
+	"equipped.armor": { type: Array },
+	"equipped.armor.$": { type: Object },
 
 	// one to one to many
 	equipment: Array,
 	"equipment.$": {
 		type: Object,
-		optional: true,
 	},
-	"equipment.$.name": String,
-	"equipment.$.id": String,
-	"equipment.$.quantity": Number,
-	"equipment.$.weight": Number,
-	"equipment.$.description": String,
-	"equipment.$.type": String,
 
 	carryWeight: Number,
 	maxCarryWeight: Number,
@@ -112,17 +105,6 @@ CharacterCollection.schema = new SimpleSchema({
 	},
 	"knownSpells.$": {
 		type: Object,
-		optional: true,
-	},
-	"knownSpells.$.name": {
-		type: String,
-	},
-	"knownSpells.$.id": {
-		type: String,
-	},
-	"knownSpells.$.level": {
-		type: Number,
-		optional: true,
 	},
 
 	// one to many
@@ -131,25 +113,10 @@ CharacterCollection.schema = new SimpleSchema({
 	},
 	"preparedSpells.$": {
 		type: Object,
-		optional: true,
-	},
-	"preparedSpells.$.name": {
-		type: String,
-		optional: true,
-	},
-	"preparedSpells.$.id": {
-		type: String,
-		optional: true,
-	},
-	"preparedSpells.$.level": {
-		type: Number,
-		optional: true,
 	},
 
 	createdAt: { type: Date },
 }).newContext();
-
-// Attach the schema to the collection
 
 Meteor.methods({
 	// Method to insert a new character into the database

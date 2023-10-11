@@ -1,5 +1,6 @@
 import { Meteor } from "meteor/meteor";
 import assert from "assert";
+import { CharacterCollection } from "./";
 import StubCollections from "meteor/hwillson:stub-collections";
 
 // importing methods
@@ -15,7 +16,7 @@ describe("CharacterCollection", function () {
 		race: "Hobbit",
 		background: {
 			name: "Burglar",
-			decription: "Stole from a dragon",
+			description: "Stole from a dragon",
 		},
 		details: {
 			age: 111,
@@ -67,12 +68,14 @@ describe("CharacterCollection", function () {
 			survival: 2,
 		},
 		equipped: {
-			armor: [],
-			weapon: [],
+			armor: [{}],
+			weapons: [{}],
 		},
-		equipment: {},
-		knownSpells: [],
-		preparedSpells: [],
+		equipment: [{}],
+		carryWeight: 0,
+		maxCarryWeight: 10,
+		knownSpells: [{}],
+		preparedSpells: [{}],
 		createdAt: new Date(),
 	};
 

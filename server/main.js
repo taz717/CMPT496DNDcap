@@ -1,5 +1,5 @@
 import { Meteor } from "meteor/meteor";
-import { CharacterCollection } from "../imports/api/CharacterCollection";
+import { CharacterCollection } from "../imports/api/characterCollection";
 
 Meteor.startup(async () => {
 	// If the Character collection is empty, add some data.
@@ -16,7 +16,7 @@ Meteor.startup(async () => {
 
 		// We publish the entire collection to all clients.
 		// In order to be fetched in real-time to the clients
-		Meteor.publish("characters", function () {
+		Meteor.publish("CharacterCollection", function () {
 			return CharacterCollection.find();
 		});
 	}

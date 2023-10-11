@@ -9,6 +9,9 @@
 import { Meteor } from "meteor/meteor";
 import { check } from "meteor/check";
 
+// import the collection
+import { CharacterCollection } from "../";
+
 Meteor.methods({
 	// Method to insert a new character into the database
 	"character.insert"(characterObject) {
@@ -17,12 +20,12 @@ Meteor.methods({
 
 		// Validate the Object against the schema
 		if (!CharacterCollection.schema.validate(characterObject)) {
-			console.log(CharacterCollection.schema.isValid());
-			console.log(CharacterCollection.schema.validationErrors());
+			console.log(CharacterCollection.isValid());
+			console.log(CharacterCollection.validationErrors());
 			throw new Meteor.Error("invalid-character-object");
 		}
 
-		// insert
+		// insert I hate this
 		CharacterCollection.insertAsync(characterObject);
 	},
 });
