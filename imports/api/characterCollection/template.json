@@ -7,7 +7,7 @@
     "race": "String",
     "background": {
         "name": "String",
-        "description": "String",
+        "description": "String"
     },
     "details": {
         "age": "Number",

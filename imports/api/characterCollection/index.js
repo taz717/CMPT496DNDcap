@@ -3,23 +3,26 @@ import { check } from "meteor/check";
 import SimpleSchema from "simpl-schema";
 
 // Create a new Mongo collection for characters
-export const CharacterCollection = new Mongo.Collection("characters");
+export default CharacterCollection = new Mongo.Collection("characters");
 
 // Creating a Schema for the CharacterCollection
 CharacterCollection.schema = new SimpleSchema({
 	name: String,
 	ownerID: String,
+
 	// One to many
-	///////////////////////////////////////////////////////////////////////////
 	class: Array,
 	"class.$": String,
-	///////////////////////////////////////////////////////////////////////////
 	level: Number,
 	xp: Number,
 	race: String,
+
+	// One to many
 	background: Object,
 	"background.name": String,
 	"background.description": String,
+
+	// One to many (7)
 	details: { type: Object, optional: true },
 	"details.age": Number,
 	"details.height": String,
@@ -27,6 +30,7 @@ CharacterCollection.schema = new SimpleSchema({
 	"details.eyes": String,
 	"details.skin": String,
 	"details.hair": String,
+
 	alignment: String,
 	inspiration: Boolean,
 	ac: Number,
@@ -34,14 +38,12 @@ CharacterCollection.schema = new SimpleSchema({
 	speed: Number,
 	hp: Number,
 	maxHP: Number,
-	// first number is success, second is failure
 	// One to many (2)
-	///////////////////////////////////////////////////////////////////////////
 	deathSaves: Object,
 	"deathSaves.successes": Number,
 	"deathSaves.failures": Number,
+
 	// One to many (6)
-	///////////////////////////////////////////////////////////////////////////
 	savingThrows: Object,
 	"savingThrows.strength": Number,
 	"savingThrows.dexterity": Number,
@@ -49,18 +51,19 @@ CharacterCollection.schema = new SimpleSchema({
 	"savingThrows.intelligence": Number,
 	"savingThrows.wisdom": Number,
 	"savingThrows.charisma": Number,
-	// One to many (2)
-	///////////////////////////////////////////////////////////////////////////
+
+	// One to many
 	weaponProficiencies: Array,
 	"weaponProficiencies.$": String,
-	// One to many (2)
-	///////////////////////////////////////////////////////////////////////////
+
+	// One to many
 	armorProficiencies: Array,
 	"armorProficiencies.$": String,
+
 	feats: Array,
 	"feats.$": String,
+
 	// One to many (18)
-	///////////////////////////////////////////////////////////////////////////
 	skills: Object,
 	"skills.acrobatics": Number,
 	"skills.animalHandling": Number,
@@ -87,8 +90,7 @@ CharacterCollection.schema = new SimpleSchema({
 	"equipped.armor": { type: Array, optional: true },
 	"equipped.armor.$": { type: String, optional: true },
 
-	// one to many (6) to many
-	///////////////////////////////////////////////////////////////////////////
+	// one to one to many
 	equipment: Array,
 	"equipment.$": {
 		type: Object,
@@ -103,10 +105,8 @@ CharacterCollection.schema = new SimpleSchema({
 
 	carryWeight: Number,
 	maxCarryWeight: Number,
-	// one to many (2) to many
-	///////////////////////////////////////////////////////////////////////////
-	// spells are an object with two objects inside a list of objects which are
-	// are the spell names and ids
+
+	// one to many
 	knownSpells: {
 		type: Array,
 	},
@@ -124,6 +124,8 @@ CharacterCollection.schema = new SimpleSchema({
 		type: Number,
 		optional: true,
 	},
+
+	// one to many
 	preparedSpells: {
 		type: Array,
 	},
@@ -143,27 +145,38 @@ CharacterCollection.schema = new SimpleSchema({
 		type: Number,
 		optional: true,
 	},
-	///////////////////////////////////////////////////////////////////////////
+
 	createdAt: { type: Date },
 }).newContext();
 
+// Attach the schema to the collection
+
 Meteor.methods({
 	// Method to insert a new character into the database
-	"character.insert"(characterObject) {
-		// check the Object
-		if (!CharacterCollection.schema.validate(characterObject)) {
-			console.log(CharacterCollection.isValid());
-			console.log(CharacterCollection.validationErrors());
-			throw new Meteor.Error("invalid-character-object");
-		}
+	// "character.insert"(characterObject) {
+	// 	// check the Object
+	// 	if (!CharacterCollection.schema.validate(characterObject)) {
+	// 		console.log(CharacterCollection.isValid());
+	// 		console.log(CharacterCollection.validationErrors());
+	// 		throw new Meteor.Error("invalid-character-object");
+	// 	}
 
-		// insert
-		CharacterCollection.insertAsync(characterObject);
-	},
+	// 	// insert
+	// 	CharacterCollection.insertAsync(characterObject);
+	// },
 
-	// TODO FIX UPDATES TO WORK WITH OBJECT STRUCTURE
+	// * UPDATE METHODS * //
 	// Method to update a character in the database
 	"character.update"(characterID, characterStat, characterValue) {
+		/* 
+			purpose: update a character's stat
+			arguments:
+				characterID: String
+				characterStat: String
+				characterValue: String, Number, Boolean, or Object
+			returns: nothing
+		*/
+
 		// check the Object
 		check(characterID, String);
 		check(characterStat, String);
@@ -187,6 +200,36 @@ Meteor.methods({
 		// update
 		CharacterCollection.updateAsync(characterID, {
 			$set: { [characterStat]: characterValue },
+		});
+	},
+
+	// update a character's equipment
+	"character.updateEquipment"(characterID, equipmentPiece) {
+		// check the object
+		check(characterID, String);
+		check(equipmentPiece, Object);
+
+		// verify through schema
+		const equipmentPieceSchema =
+			CharacterCollection.schema._schema["equipment.$"];
+
+		if (!equipmentPieceSchema) {
+			throw new Meteor.Error("invalid-equipment-piece");
+		}
+
+		// update
+		CharacterCollection.updateAsync(characterID, {
+			$push: { equipment: equipmentPiece },
+		});
+
+		// update carry weight
+		const character = CharacterCollection.findOneAsync(characterID);
+
+		// update
+		CharacterCollection.updateAsync(characterID, {
+			$set: {
+				carryWeight: character.carryWeight + equipmentPiece.weight,
+			},
 		});
 	},
 
