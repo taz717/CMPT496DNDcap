@@ -56,12 +56,46 @@ describe("CharacterCollection", function () {
 	};
 
 	it("Character insert into the DB", function () {
+		// Stub the collection (so we don't make a real db call)
 		StubCollections.stub(CharacterCollection);
+
+		// Call the method
 		Meteor.call("character.insert", bilboBaggins);
 		const character = CharacterCollection.findOne({
 			name: "Bilbo Baggins",
 		});
+
+		// Verify that the method does what we expected
 		assert.strictEqual(character.name, "Bilbo Baggins");
+
+		// Restore the collection
+		StubCollections.restore();
+	});
+
+	it("Character update in the DB", function () {
+		// Stub the collection (so we don't make a real db call)
+		StubCollections.stub(CharacterCollection);
+
+		// Call insert for set up
+		Meteor.call("character.insert", bilboBaggins);
+
+		const character = CharacterCollection.findOne({
+			name: "Bilbo Baggins",
+		});
+
+		// Verify that the insert does what we expected
+		assert.strictEqual(character.name, "Bilbo Baggins");
+
+		// Call the method we are testing
+		Meteor.call("character.update", character._id, "name", "Frodo Baggins");
+
+		// Verify that the method does what we expected
+		const updatedCharacter = CharacterCollection.findOne({
+			name: "Frodo Baggins",
+		});
+		assert.strictEqual(updatedCharacter.name, "Frodo Baggins");
+
+		// Restore the collection
 		StubCollections.restore();
 	});
 });

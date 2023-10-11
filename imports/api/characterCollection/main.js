@@ -120,17 +120,36 @@ Meteor.methods({
 			throw new Meteor.Error("invalid-character-object");
 		}
 
+		// insert
 		CharacterCollection.insertAsync(characterObject);
 	},
 
 	// Method to update a character in the database
-	"character.update"(characterObject) {
+	"character.update"(characterID, characterStat, characterValue) {
 		// check the Object
-		if (!CharacterCollection.schema.validate(characterObject)) {
-			throw new Meteor.Error("invalid-character-object");
+		check(characterID, String);
+		check(characterStat, String);
+
+		// verify value through schema
+		const characterStatSchema =
+			CharacterCollection.schema._schema[characterStat];
+
+		if (!characterStatSchema) {
+			throw new Meteor.Error("invalid-character-stat");
 		}
 
-		CharacterCollection.updateAsync(characterObject);
+		// verifty value of the characterStat
+		if (
+			!characterStatSchema.type.singleType.name.toLowerCase() ===
+			typeof characterValue
+		) {
+			throw new Meteor.Error("invalid-character-value");
+		}
+
+		// update
+		CharacterCollection.updateAsync(characterID, {
+			$set: { [characterStat]: characterValue },
+		});
 	},
 
 	// Method to delete a character from the database
