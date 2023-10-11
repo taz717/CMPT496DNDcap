@@ -1,0 +1,83 @@
+{
+    "name": "String",
+    "ownderID": "String",
+    "class": ["String", "String", "String"],
+    "level": "Number",
+    "xp": "Number",
+    "race": "String",
+    "background": {
+        "name": "String",
+        "description": "String",
+    },
+    "details": {
+        "age": "Number",
+        "height": "Number",
+        "weight": "Number",
+        "eyes": "String",
+        "skin": "String",
+        "hair": "String"
+    },
+    "alignment": "String",
+    "inspiration": "String",
+    "ac": "Number",
+    "initiative": "Number",
+    "speed": "Number",
+    "hp": "Number",
+    "maxHp": "Number",
+    "deathSaves": {
+        "successes": "Number",
+        "failures": "Number"
+    },
+    "savingthrows": {
+        "strength": "Number",
+        "dexterity": "Number",
+        "constitution": "Number",
+        "intelligence": "Number",
+        "wisdom": "Number",
+        "charisma": "Number"
+    },
+    "weaponProficiencies": ["String", "String", "String"],
+    "armorProficiencies": ["String", "String", "String"],
+    "feats": ["String", "String", "String"],
+    "skills": {
+        "acrobatics": "Number",
+        "animalHandling": "Number",
+        "arcana": "Number",
+        "athletics": "Number",
+        "deception": "Number",
+        "history": "Number",
+        "insight": "Number",
+        "intimidation": "Number",
+        "investigation": "Number",
+        "medicine": "Number",
+        "nature": "Number",
+        "perception": "Number",
+        "performance": "Number",
+        "persuasion": "Number",
+        "religion": "Number",
+        "sleightOfHand": "Number",
+        "stealth": "Number",
+        "survival": "Number"
+    },
+    "equipped": {
+        "weapons": ["String", "String", "String"],
+        "armor": ["String", "String", "String"]
+    },
+    "equipment": ["String", "String", "String"],
+    "carryWeight": "Number",
+    "maxCarryWeight": "Number",
+    "knownSpells": [
+        {
+            "id": "String",
+            "name": "String",
+            "level": "Number"
+        }
+    ],
+    "preparedSpells": [
+        {
+            "id": "String",
+            "name": "String",
+            "level": "Number"
+        }
+    ]
+}

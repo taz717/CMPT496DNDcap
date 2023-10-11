@@ -15,16 +15,25 @@ CharacterCollection.schema = new SimpleSchema({
 	"class.$": String,
 	///////////////////////////////////////////////////////////////////////////
 	level: Number,
-	race: String,
-	alignment: String,
-	background: String,
-	inspiration: Boolean,
 	xp: Number,
+	race: String,
+	background: Object,
+	"background.name": String,
+	"background.description": String,
+	details: { type: Object, optional: true },
+	"details.age": Number,
+	"details.height": String,
+	"details.weight": String,
+	"details.eyes": String,
+	"details.skin": String,
+	"details.hair": String,
+	alignment: String,
+	inspiration: Boolean,
 	ac: Number,
-	maxHP: Number,
-	currentHP: Number,
 	initiative: Number,
 	speed: Number,
+	hp: Number,
+	maxHP: Number,
 	// first number is success, second is failure
 	// One to many (2)
 	///////////////////////////////////////////////////////////////////////////
@@ -40,6 +49,16 @@ CharacterCollection.schema = new SimpleSchema({
 	"savingThrows.intelligence": Number,
 	"savingThrows.wisdom": Number,
 	"savingThrows.charisma": Number,
+	// One to many (2)
+	///////////////////////////////////////////////////////////////////////////
+	weaponProficiencies: Array,
+	"weaponProficiencies.$": String,
+	// One to many (2)
+	///////////////////////////////////////////////////////////////////////////
+	armorProficiencies: Array,
+	"armorProficiencies.$": String,
+	feats: Array,
+	"feats.$": String,
 	// One to many (18)
 	///////////////////////////////////////////////////////////////////////////
 	skills: Object,
@@ -70,23 +89,26 @@ CharacterCollection.schema = new SimpleSchema({
 
 	// one to many (6) to many
 	///////////////////////////////////////////////////////////////////////////
-	equipment: Object,
-	"equipment.wealth": { type: Number, optional: true },
-	"equipment.weapons": { type: Array, optional: true },
-	"equipment.weapons.$": { type: String, optional: true },
-	"equipment.armor": { type: Array, optional: true },
-	"equipment.armor.$": { type: String, optional: true },
-	"equipment.tools": { type: Array, optional: true },
-	"equipment.tools.$": { type: String, optional: true },
-	"equipment.other": { type: Array, optional: true },
-	"equipment.other.$": { type: String, optional: true },
+	equipment: Array,
+	"equipment.$": {
+		type: Object,
+		optional: true,
+	},
+	"equipment.$.name": String,
+	"equipment.$.id": String,
+	"equipment.$.quantity": Number,
+	"equipment.$.weight": Number,
+	"equipment.$.description": String,
+	"equipment.$.type": String,
+
+	carryWeight: Number,
+	maxCarryWeight: Number,
 	// one to many (2) to many
 	///////////////////////////////////////////////////////////////////////////
 	// spells are an object with two objects inside a list of objects which are
 	// are the spell names and ids
 	knownSpells: {
 		type: Array,
-		blackbox: true,
 	},
 	"knownSpells.$": {
 		type: Object,
@@ -98,8 +120,11 @@ CharacterCollection.schema = new SimpleSchema({
 	"knownSpells.$.id": {
 		type: String,
 	},
+	"knownSpells.$.level": {
+		type: Number,
+		optional: true,
+	},
 	preparedSpells: {
-		blackbox: true,
 		type: Array,
 	},
 	"preparedSpells.$": {
@@ -112,6 +137,10 @@ CharacterCollection.schema = new SimpleSchema({
 	},
 	"preparedSpells.$.id": {
 		type: String,
+		optional: true,
+	},
+	"preparedSpells.$.level": {
+		type: Number,
 		optional: true,
 	},
 	///////////////////////////////////////////////////////////////////////////
