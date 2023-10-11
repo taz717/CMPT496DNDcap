@@ -1,5 +1,5 @@
 import React from "react";
-import { CharacterCollection } from "../api/CharacterCollection";
+import { CharacterCollection } from "../api/characterCollection";
 import { useFind, useSubscribe } from "meteor/react-meteor-data";
 
 export const CharacterCreator = () => {
