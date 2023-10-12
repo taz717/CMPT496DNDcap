@@ -119,57 +119,6 @@ CharacterCollection.schema = new SimpleSchema({
 }).newContext();
 
 Meteor.methods({
-	// Method to insert a new character into the database
-	// "character.insert"(characterObject) {
-	// 	// check the Object
-	// 	if (!CharacterCollection.schema.validate(characterObject)) {
-	// 		console.log(CharacterCollection.isValid());
-	// 		console.log(CharacterCollection.validationErrors());
-	// 		throw new Meteor.Error("invalid-character-object");
-	// 	}
-
-	// 	// insert
-	// 	CharacterCollection.insertAsync(characterObject);
-	// },
-
-	// * UPDATE METHODS * //
-	// Method to update a character in the database
-	"character.update"(characterID, characterStat, characterValue) {
-		/* 
-			purpose: update a character's stat
-			arguments:
-				characterID: String
-				characterStat: String
-				characterValue: String, Number, Boolean, or Object
-			returns: nothing
-		*/
-
-		// check the Object
-		check(characterID, String);
-		check(characterStat, String);
-
-		// verify value through schema
-		const characterStatSchema =
-			CharacterCollection.schema._schema[characterStat];
-
-		if (!characterStatSchema) {
-			throw new Meteor.Error("invalid-character-stat");
-		}
-
-		// verifty value of the characterStat
-		if (
-			!characterStatSchema.type.singleType.name.toLowerCase() ===
-			typeof characterValue
-		) {
-			throw new Meteor.Error("invalid-character-value");
-		}
-
-		// update
-		CharacterCollection.updateAsync(characterID, {
-			$set: { [characterStat]: characterValue },
-		});
-	},
-
 	// update a character's equipment
 	"character.updateEquipment"(characterID, equipmentPiece) {
 		// check the object
@@ -198,30 +147,6 @@ Meteor.methods({
 				carryWeight: character.carryWeight + equipmentPiece.weight,
 			},
 		});
-	},
-
-	// Method to delete a character from the database
-	"character.delete"(characterID) {
-		// check the ID
-		check(characterID, String);
-
-		// delete
-		CharacterCollection.removeAsync(characterID);
-	},
-
-	// Method to get a character from the database
-	"character.get"(characterID) {
-		// check the ID
-		check(characterID, String);
-
-		// get
-		return CharacterCollection.findOneAsync(characterID);
-	},
-
-	// Method to get all characters from the database
-	"character.getAll"() {
-		// get
-		return CharacterCollection.find({}).fetch();
 	},
 
 	"character.getSavingThrow"(characterID, savingThrow) {
