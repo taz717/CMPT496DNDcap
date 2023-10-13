@@ -4,10 +4,7 @@ import { CharacterCollection } from "./";
 import StubCollections from "meteor/hwillson:stub-collections";
 
 // importing methods
-import "./methods/insert.js";
-import "./methods/delete.js";
-import "./methods/simpleUpdate.js";
-import "./methods/getOne.js";
+import "./methods";
 
 describe("CharacterCollection", function () {
 	const bilboBaggins = {

@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Purpose   : Get all characters from the database
-// Parameters: none
-// Returns   : the character objects
+// Purpose   : Delete a character from the database
+// Parameters: characterId - the id of the character to delete
+// Returns   : 0 on success
 // Throws    : invalid-character-id
 // Blame     : Taz
 ///////////////////////////////////////////////////////////////////////////////
@@ -10,11 +10,16 @@ import { Meteor } from "meteor/meteor";
 import { check } from "meteor/check";
 
 // import the collection
-import { CharacterCollection } from "../";
+import { CharacterCollection } from "../..";
 
 Meteor.methods({
-	"character.getAll"() {
-		// get
-		return CharacterCollection.findAsync();
+	"character.delete"(characterID) {
+		// check the ID
+		check(characterID, String);
+
+		// delete
+		CharacterCollection.removeAsync(characterID);
+
+		return 0;
 	},
 });

@@ -16,7 +16,7 @@ import { Meteor } from "meteor/meteor";
 import { check } from "meteor/check";
 
 // import the collection
-import { CharacterCollection } from "..";
+import { CharacterCollection } from "../..";
 
 Meteor.methods({
 	// Method to update a character's stat

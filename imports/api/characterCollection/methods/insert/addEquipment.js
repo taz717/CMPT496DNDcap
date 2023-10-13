@@ -1,6 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Purpose   : Delete a character from the database
-// Parameters: characterId - the id of the character to delete
+// Purpose   : add a piece of equipment to a character
+// Parameters: characterId - the id of the character to delete\
+//             equipmentPiece - the piece of equipment to add
 // Returns   : 0 on success
 // Throws    : invalid-character-id
 // Blame     : Taz
@@ -10,16 +11,4 @@ import { Meteor } from "meteor/meteor";
 import { check } from "meteor/check";
 
 // import the collection
-import { CharacterCollection } from "../";
-
-Meteor.methods({
-	"character.delete"(characterID) {
-		// check the ID
-		check(characterID, String);
-
-		// delete
-		CharacterCollection.removeAsync(characterID);
-
-		return 0;
-	},
-});
+import { CharacterCollection } from "../..";
