@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import RoomsCollection from "../api/rooms";
+import { useNavigate } from 'react-router-dom';
 
 export const Home = () => {
 	const [roomName, setRoomName] = useState("");
@@ -13,17 +14,19 @@ export const Home = () => {
 		setUserName(e.target.value);
 	};
 
+	const navigate = useNavigate();
+
 	const handleConfirmClick = () => {
 		Meteor.subscribe("rooms");
 		Meteor.call(
 			"rooms.createOrJoinRoom",
 			roomName,
 			userName,
-			(error, result) => {
+			(error) => {
 				if (error) {
 					console.error(error.reason);
 				} else {
-					history.push(`/room/${roomName}`);
+					navigate(`/room/${roomName}`);
 				}
 			}
 		);
