@@ -9,16 +9,19 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.20.7",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.10",
     "meteor-node-stubs": "^1.2.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.16.0"
+    "react-router-dom": "^6.16.0",
+    "simpl-schema": "^3.4.1"
   },
   "meteor": {
     "mainModule": {
       "client": "client/main.jsx",
       "server": "server/main.js"
-    },
-    "testModule": "tests/main.js"
+    }
   }
 }
