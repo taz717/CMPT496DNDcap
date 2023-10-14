@@ -1,37 +1,23 @@
-import { Meteor } from 'meteor/meteor';
-import { LinksCollection } from '/imports/api/links';
-
-async function insertLink({ title, url }) {
-  await LinksCollection.insertAsync({ title, url, createdAt: new Date() });
-}
+import { Meteor } from "meteor/meteor";
+import { CharacterCollection } from "../imports/api/characterCollection";
 
 Meteor.startup(async () => {
-  // If the Links collection is empty, add some data.
-  if (await LinksCollection.find().countAsync() === 0) {
-    await insertLink({
-      title: 'Do the Tutorial',
-      url: 'https://www.meteor.com/tutorials/react/creating-an-app',
-    });
+	// If the Character collection is empty, add some data.
+	if ((await CharacterCollection.find().countAsync()) === 0) {
+		await Meteor.call("character.insert", {
+			name: "Arya Stark",
+			house: "House Stark",
+			age: 11,
+			alive: true,
+			created: new Date(),
+		});
 
-    await insertLink({
-      title: 'Follow the Guide',
-      url: 'https://guide.meteor.com',
-    });
+		console.log("Server started with some data!");
 
-    await insertLink({
-      title: 'Read the Docs',
-      url: 'https://docs.meteor.com',
-    });
-
-    await insertLink({
-      title: 'Discussions',
-      url: 'https://forums.meteor.com',
-    });
-  }
-
-  // We publish the entire Links collection to all clients.
-  // In order to be fetched in real-time to the clients
-  Meteor.publish("links", function () {
-    return LinksCollection.find();
-  });
+		// We publish the entire collection to all clients.
+		// In order to be fetched in real-time to the clients
+		Meteor.publish("CharacterCollection", function () {
+			return CharacterCollection.find();
+		});
+	}
 });
