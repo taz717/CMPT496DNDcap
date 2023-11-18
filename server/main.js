@@ -1,16 +1,84 @@
 import { Meteor } from "meteor/meteor";
 import { CharacterCollection } from "../imports/api/characterCollection";
+import "../imports/api/characterCollection/methods";
+
+
+const bilboBaggins = {
+			name: "Bilbo Baggins",
+			ownerID: "Andrew",
+			class: ["rogue", "bard"],
+			level: 2,
+			xp: 12,
+			race: "Hobbit",
+			background: {
+				name: "Burglar",
+				description: "Stole from a dragon",
+			},
+			details: {
+				age: 111,
+				height: "3'6",
+				weight: "60 lbs",
+				eyes: "Blue",
+				skin: "Tan",
+				hair: "Brown",
+			},
+			alignment: "Chaotic Good",
+			inspiration: false,
+			ac: 12,
+			initiative: 2,
+			speed: 25,
+			hp: 12,
+			maxHP: 12,
+			deathSaves: {
+				successes: 0,
+				failures: 0,
+			},
+			savingThrows: {
+				strength: -1,
+				dexterity: 8,
+				constitution: 1,
+				intelligence: 2,
+				wisdom: 7,
+				charisma: 5,
+			},
+			weaponProficiencies: ["simple", "martial"],
+			armorProficiencies: ["light", "medium", "heavy"],
+			feats: ["lucky", "halfling nimbleness"],
+			skills: {
+				acrobatics: 2,
+				animalHandling: 2,
+				arcana: 2,
+				athletics: 2,
+				deception: 2,
+				history: 2,
+				insight: 2,
+				intimidation: 2,
+				investigation: 2,
+				medicine: 2,
+				nature: 2,
+				perception: 2,
+				performance: 2,
+				religion: 2,
+				sleightOfHand: 2,
+				stealth: 2,
+				survival: 2,
+			},
+			equipped: {
+				armor: [{}],
+				weapons: [{}],
+			},
+			equipment: [{}],
+			carryWeight: 0,
+			maxCarryWeight: 10,
+			knownSpells: [{}],
+			preparedSpells: [{}],
+			createdAt: new Date(),
+		}
 
 Meteor.startup(async () => {
 	// If the Character collection is empty, add some data.
 	if ((await CharacterCollection.find().countAsync()) === 0) {
-		await Meteor.call("character.insert", {
-			name: "Arya Stark",
-			house: "House Stark",
-			age: 11,
-			alive: true,
-			created: new Date(),
-		});
+		await Meteor.call("character.insert", bilboBaggins);
 
 		console.log("Server started with some data!");
 

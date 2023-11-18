@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
+import { Meteor } from 'meteor/meteor';
 
 function Copyright(props) {
   return (
@@ -27,7 +28,17 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
+
+const themeDark = createTheme({
+  palette: {
+    background: {
+      default: "#222222"
+    },
+    text: {
+      primary: "#ffffff"
+    }
+  }
+});
 
 const defaultTheme = createTheme();
 
@@ -38,9 +49,15 @@ export default function SignIn() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+    const username = data.get('username');
+    const password = data.get('password');
+    Meteor.loginWithPassword({username: username}, password, function(err){
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("successful signin");
+        navigate('/choice');
+      }
     });
   };
 
@@ -71,10 +88,11 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
               autoFocus
             />
             <TextField
