@@ -3,7 +3,7 @@ import { CharacterCollection } from "../imports/api/characterCollection";
 import "../imports/api/characterCollection/methods";
 
 
-const bilboBaggins = {
+const bilbobaggins = {
 			name: "Bilbo Baggins",
 			ownerID: "Andrew",
 			class: ["rogue", "bard"],
@@ -75,10 +75,11 @@ const bilboBaggins = {
 			createdAt: new Date(),
 		}
 
+
 Meteor.startup(async () => {
 	// If the Character collection is empty, add some data.
 	if ((await CharacterCollection.find().countAsync()) === 0) {
-		await Meteor.call("character.insert", bilboBaggins);
+		await Meteor.call("character.insert", bilbobaggins);
 
 		console.log("Server started with some data!");
 

@@ -19,6 +19,7 @@ import "./insert/insert.js";
 // import "./get/getAll.js";
 // import "./get/getBasicStat.js";
 // import "./get/getByName.js";
+import "./get/getNamesByOwner.js";
 // import "./get/getEquipment.js";
 // import "./get/getEquipped.js";
 // import "./get/getKnownSpells.js";
