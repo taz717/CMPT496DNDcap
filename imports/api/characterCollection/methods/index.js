@@ -16,6 +16,7 @@ import "./insert/insert.js";
 // import "./insert/addKnownSpells.js";
 // import "./insert/addPreparedSpells.js";
 // getters
+import "./get/getOne.js";
 // import "./get/getAll.js";
 // import "./get/getBasicStat.js";
 // import "./get/getByName.js";
@@ -25,5 +26,5 @@ import "./insert/insert.js";
 // import "./get/getPreparedSpells.js";
 // import "./get/getSavingThrow.js";
 // updates
-// import "./update/simpleUpdate.js";
+import "./update/simpleUpdate.js";
 // import "./update/updateEquipment.js";
