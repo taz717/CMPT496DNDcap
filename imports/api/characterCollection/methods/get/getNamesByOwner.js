@@ -17,7 +17,14 @@ Meteor.methods({
 		// chec the name
 		check(owner, String);
 
+		if (!owner) {
+			throw new Meteor.Error("invalid-character-owner");
+		}
+
 		// get
-		return CharacterCollection.find({ ownerID: owner }, {fields: {name: 1} }).fetch();
+		return CharacterCollection.find(
+			{ ownerID: owner },
+			{ fields: { name: 1 } }
+		).fetch();
 	},
 });

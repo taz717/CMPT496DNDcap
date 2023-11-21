@@ -2,7 +2,7 @@
 // Purpose   : Get a single character from the database by name
 // Parameters: characterName - the name of the character to get
 // Returns   : the character object
-// Throws    : invalid-character-id
+// Throws    : invalid-character-name
 // Blame     : Taz
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -14,8 +14,12 @@ import { CharacterCollection } from "../..";
 
 Meteor.methods({
 	"character.getByName"(characterName) {
-		// chec the name
+		// check the name
 		check(characterName, String);
+
+		if (!characterName) {
+			throw new Meteor.Error("invalid-character-name");
+		}
 
 		// get
 		return CharacterCollection.findOneAsync({ name: characterName });

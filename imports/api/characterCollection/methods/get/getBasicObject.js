@@ -1,26 +1,18 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Purpose   : get any non-nested string/int from a character
-// Parameters: characterId - the character's id and stat - the name of the stat
-// Returns   : the stat from the character or throw error if not found
+// Purpose   : get object from a character
+// Parameters: characterId - the character's id and objectname - the name of the object
+// Returns   : the object from the character or throw error if not found
 // Throws    : invalid-character-id
 // Blame     : Taz
 ///////////////////////////////////////////////////////////////////////////////
 
 // this will work for
-// - name
-// - ownerID
-// - level
-// - xp
-// - race
-// - alignment
-// - inspiration
-// - ac
-// - initiative
-// - speed
-// - hp
-// - maxHp
-// - carryWeight
-// - maxCarryWeight
+// - saving throws
+// - background
+// - details
+// - death saves
+// - skills
+// - equipped
 
 import { Meteor } from "meteor/meteor";
 import { check } from "meteor/check";
@@ -29,7 +21,7 @@ import { check } from "meteor/check";
 import { CharacterCollection } from "../..";
 
 Meteor.methods({
-	"character.getBasicStat"(characterId, statName) {
+	"character.getBasicObject"(characterId, objectname) {
 		// chec the name
 		check(characterId, String);
 
@@ -41,11 +33,6 @@ Meteor.methods({
 			throw new Meteor.Error("invalid-character-id");
 		}
 
-		if (character[statName]) {
-			return stat;
-		}
-
-		// if we get here, we didn't find the object
-		throw new Meteor.Error("invalid-stat-name");
+		return character[objectname];
 	},
 });

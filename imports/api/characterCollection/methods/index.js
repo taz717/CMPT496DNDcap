@@ -9,22 +9,19 @@
 
 // deletes
 import "./delete/delete.js";
+import "./delete/deleteListItem.js";
 // inserts
 import "./insert/insert.js";
-// import "./insert/addEquipment.js";
-// import "./insert/addEquipped.js";
-// import "./insert/addKnownSpells.js";
-// import "./insert/addPreparedSpells.js";
+import "./insert/addToList.js";
 // getters
-// import "./get/getAll.js";
-// import "./get/getBasicStat.js";
-// import "./get/getByName.js";
+import "./get/getOne.js";
+import "./get/getAll.js";
+import "./get/getBasicStat.js";
+import "./get/getBasicList.js";
+import "./get/getBasicObject.js";
+import "./get/getByName.js";
 import "./get/getNamesByOwner.js";
-// import "./get/getEquipment.js";
-// import "./get/getEquipped.js";
-// import "./get/getKnownSpells.js";
-// import "./get/getPreparedSpells.js";
-// import "./get/getSavingThrow.js";
 // updates
-// import "./update/simpleUpdate.js";
-// import "./update/updateEquipment.js";
+import "./update/simpleUpdate.js";
+import "./update/updateList.js";
+import "./update/updateObject.js";
