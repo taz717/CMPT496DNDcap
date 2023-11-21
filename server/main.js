@@ -4,7 +4,7 @@ import "../imports/api/characterCollection/methods";
 
 const bilbobaggins = {
 	name: "Bilbo Baggins",
-	ownerID: "Andrew",
+	ownerID: "taz",
 	class: ["rogue", "bard"],
 	level: 2,
 	xp: 12,

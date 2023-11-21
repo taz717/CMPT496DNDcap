@@ -17,6 +17,10 @@ Meteor.methods({
 		// check the ID
 		check(characterID, String);
 
+		if (!characterID) {
+			throw new Meteor.Error("invalid-character-id");
+		}
+
 		// get
 		return CharacterCollection.findOneAsync(characterID);
 	},
