@@ -21,7 +21,7 @@ import { check } from "meteor/check";
 import { CharacterCollection } from "../..";
 
 Meteor.methods({
-	"character.getSavingThrow"(characterId, objectname) {
+	"character.getBasicObject"(characterId, objectname) {
 		// chec the name
 		check(characterId, String);
 

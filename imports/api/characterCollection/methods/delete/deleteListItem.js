@@ -17,7 +17,7 @@ import { check } from "meteor/check";
 import { CharacterCollection } from "../..";
 
 Meteor.methods({
-	"character.getSavingThrow"(characterId, listName, statName) {
+	"character.deleteListItem"(characterId, listName, statName) {
 		// chec the name
 		check(characterId, String);
 

@@ -23,7 +23,7 @@ import { check } from "meteor/check";
 import { CharacterCollection } from "../..";
 
 Meteor.methods({
-	"character.addToObject"(characterID, objectName, statName, statValue) {
+	"character.updateObject"(characterID, objectName, statName, statValue) {
 		// check the ID
 		check(characterID, String);
 		check(objectName, String);

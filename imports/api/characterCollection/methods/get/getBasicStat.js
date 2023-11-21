@@ -29,7 +29,7 @@ import { check } from "meteor/check";
 import { CharacterCollection } from "../..";
 
 Meteor.methods({
-	"character.getSavingThrow"(characterId, statName) {
+	"character.getBasicStat"(characterId, statName) {
 		// chec the name
 		check(characterId, String);
 
