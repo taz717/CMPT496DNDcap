@@ -11,13 +11,13 @@ import Link from "@mui/material/Link";
 import PersonIcon from "@mui/icons-material/Person";
 import Container from "@mui/material/Container";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import TextField from '@mui/material/TextField';
-import ListItemText from '@mui/material/ListItemText';
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import TextField from "@mui/material/TextField";
+import ListItemText from "@mui/material/ListItemText";
 
 export const PlayerCharList = () => {
 	const [characterList, setCharacterList] = useState([]);
@@ -63,7 +63,7 @@ export const PlayerCharList = () => {
 	const handleClickOpen = () => {
 		setOpen(true);
 	};
-	  
+
 	const handleClose = () => {
 		setOpen(false);
 	};
@@ -71,9 +71,9 @@ export const PlayerCharList = () => {
 	const handleCreate = (event) => {
 		event.preventDefault();
 		const data = new FormData(event.currentTarget);
-    	const CharName = data.get('CharName');
-    	const CharClass = data.get('CharClass');
-		const CharRace = data.get('CharRace');
+		const CharName = data.get("CharName");
+		const CharClass = data.get("CharClass");
+		const CharRace = data.get("CharRace");
 
 		const newCharacter = {
 			name: CharName,
@@ -157,7 +157,7 @@ export const PlayerCharList = () => {
 		});
 
 		setOpen(false);
-	}
+	};
 
 	return (
 		<Container component="main" maxWidth="xs">
@@ -204,8 +204,8 @@ export const PlayerCharList = () => {
 											</ListItemIcon>
 											<ListItem key={character._id}>
 												<ListItemText
-												primary = {character.name}
-												secondary={`${character.race} ${character.class}`}
+													primary={character.name}
+													secondary={`${character.race} ${character.class}`}
 												/>
 											</ListItem>
 										</ListItem>
@@ -227,15 +227,14 @@ export const PlayerCharList = () => {
 						</Button>
 					</Grid>
 					<Grid item xs={6}>
-					<Button
-            			onClick={handleClickOpen}
-            			type="submit"
-            			variant="contained"
-            			sx={{ mt: 3, mb: 2 }}
-						
-        			>
-            			Create Character
-        			</Button>
+						<Button
+							onClick={handleClickOpen}
+							type="submit"
+							variant="contained"
+							sx={{ mt: 3, mb: 2 }}
+						>
+							Create Character
+						</Button>
 					</Grid>
 				</Grid>
 			</Box>
@@ -246,55 +245,57 @@ export const PlayerCharList = () => {
 				aria-describedby="alert-dialog-description"
 			>
 				<DialogTitle id="alert-dialog-title">
-				{"Create New Character"}
+					{"Create New Character"}
 				</DialogTitle>
 				<DialogContent>
-				<DialogContentText id="alert-dialog-description">
-					Enter thier name, class, and race.
-				</DialogContentText>
-			<Box component="form" onSubmit={handleCreate} noValidate sx={{ mt: 1 }}>
-				<Grid item xs={3}>
-					<TextField
-					margin="normal"
-					required
-					fullWidth
-					style = {{width: 275, p: 5}}
-					id="CharName"
-					label="Character Name"
-					name="CharName"
-					autoFocus
-					/>
-					</Grid>
-					<Grid item xs={3}>
-					<TextField
-					margin="normal"
-					required
-					style = {{width: 275}}
-					name="CharClass"
-					label="Class"
-					id="CharClass"
-					/>
-					</Grid>
-					<Grid item xs={3}>
-					<TextField
-					margin="normal"
-					required
-					style = {{width: 275}}
-					name="CharRace"
-					label="Race"
-					id="CharRace"
-					/>
-				<DialogActions>
-				<Button onClick={handleClose}>Cancel</Button>
-				<Button
-					type="submit"
-					autoFocus
+					<DialogContentText id="alert-dialog-description">
+						Enter thier name, class, and race.
+					</DialogContentText>
+					<Box
+						component="form"
+						onSubmit={handleCreate}
+						noValidate
+						sx={{ mt: 1 }}
 					>
-					Create
-					</Button>
-				</DialogActions>
-				</Grid>
-				</Box>
+						<Grid item xs={3}>
+							<TextField
+								margin="normal"
+								required
+								fullWidth
+								style={{ width: 275, p: 5 }}
+								id="CharName"
+								label="Character Name"
+								name="CharName"
+								autoFocus
+							/>
+						</Grid>
+						<Grid item xs={3}>
+							<TextField
+								margin="normal"
+								required
+								style={{ width: 275 }}
+								name="CharClass"
+								label="Class"
+								id="CharClass"
+							/>
+						</Grid>
+						<Grid item xs={3}>
+							<TextField
+								margin="normal"
+								required
+								style={{ width: 275 }}
+								name="CharRace"
+								label="Race"
+								id="CharRace"
+							/>
+							<DialogActions>
+								<Button onClick={handleClose}>Cancel</Button>
+								<Button type="submit" autoFocus>
+									Create
+								</Button>
+							</DialogActions>
+						</Grid>
+					</Box>
 				</DialogContent>
 			</Dialog>
 		</Container>
