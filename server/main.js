@@ -88,5 +88,16 @@ Meteor.startup(async () => {
 		Meteor.publish("CharacterCollection", function () {
 			return CharacterCollection.find();
 		});
+
+		// publish a single character
+		Meteor.publish("Character", function (characterID) {
+			Meteor.call("character.getOne", characterID, (err, res) => {
+				if (err) {
+					console.log(err);
+				} else {
+					return res;
+				}
+			});
+		});
 	}
 });
