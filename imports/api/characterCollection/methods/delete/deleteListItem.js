@@ -1,19 +1,14 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Purpose   : get any list from a character
-// Parameters: characterId - the character's id and listName - the name of the list
+// Purpose   : delete an item from a list in char
+// Parameters: characterId - the character's id
+//             listName - the name of the list
+//             statName - the name of the stat to delete
 // Returns   : the list from the character or throw an error if not found
 // Throws    : invalid-character-id
 // Blame     : Taz
 ///////////////////////////////////////////////////////////////////////////////
 
-// this will work for
-// - classes
-// - weapon proficiencies
-// - armour proficiencies
-// - feats
-// - equipment
-// - known spells
-// - prepared spells
+// this will work for any list or equipped item
 
 import { Meteor } from "meteor/meteor";
 import { check } from "meteor/check";
@@ -22,7 +17,7 @@ import { check } from "meteor/check";
 import { CharacterCollection } from "../..";
 
 Meteor.methods({
-	"character.getSavingThrow"(characterId, listName) {
+	"character.getSavingThrow"(characterId, listName, statName) {
 		// chec the name
 		check(characterId, String);
 
@@ -34,6 +29,16 @@ Meteor.methods({
 			throw new Meteor.Error("invalid-character-id");
 		}
 
-		return character[listName];
+		for (let i = 0; i < character[listName].length; i++) {
+			if (character[listName][i] === statName) {
+				character[listName][i].splice(i, 1);
+			}
+		}
+
+		// update
+		CharacterCollection.updateAsync(characterId, character);
+
+		// if we get here, we didn't find the object
+		throw new Meteor.Error("invalid-list-name");
 	},
 });

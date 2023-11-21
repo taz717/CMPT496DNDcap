@@ -33,37 +33,6 @@ Meteor.methods({
 			throw new Meteor.Error("invalid-character-id");
 		}
 
-		// saving throws
-		if (objectname === "savingThrows") {
-			return character.savingThrows;
-		}
-
-		// background
-		if (objectname === "background") {
-			return character.background;
-		}
-
-		// details
-		if (objectname === "details") {
-			return character.details;
-		}
-
-		// death saves
-		if (objectname === "deathSaves") {
-			return character.deathSaves;
-		}
-
-		// skills
-		if (objectname === "skills") {
-			return character.skills;
-		}
-
-		// equipped
-		if (objectname === "equipped") {
-			return character.equipped;
-		}
-
-		// if we get here, we didn't find the object
-		throw new Meteor.Error("invalid-object-name");
+		return character[objectname];
 	},
 });
