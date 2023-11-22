@@ -48,6 +48,10 @@ export const PlayerCharList = () => {
 		navigate("/choice");
 	};
 
+	const createClick = (event) => {
+		navigate("/create");
+	};
+
 	return (
 		<Container component="main" maxWidth="xs">
 			<Box
@@ -114,6 +118,7 @@ export const PlayerCharList = () => {
 					</Grid>
 					<Grid item xs={6}>
 						<Button
+							onClick={createClick}
 							type="submit"
 							variant="contained"
 							sx={{ mt: 3, mb: 2 }}
