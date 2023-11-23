@@ -14,6 +14,7 @@ import Tab from '@mui/material/Tab';
 import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
 import Container from "@mui/material/Container";
+import TextField from '@mui/material/TextField';
 
 export const CharacterCreate = () => {
     
@@ -169,7 +170,61 @@ export const CharacterCreate = () => {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        Attributes and Feats
+      <Box component="form" onSubmit={saveCharacter} noValidate sx={{ mt: 1 }}>
+        <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+        <Grid item xs={3}>
+            <TextField
+              margin="normal"
+              required
+              style = {{width: 275, p: 5}}
+              id="CharName"
+              label="Character Name"
+              name="CharName"
+              autoFocus
+            />
+            </Grid>
+            <Grid item xs={3}>
+            <TextField
+              margin="normal"
+              required
+              style = {{width: 275}}
+              name="CharClass"
+              label="Class"
+              id="CharClass"
+            />
+            </Grid>
+            <Grid item xs={3}>
+            <TextField
+              margin="normal"
+              required
+              style = {{width: 275}}
+              name="CharLevel"
+              label="Level"
+              id="CharLevel"
+            />
+            </Grid>
+            <Grid item xs={3}>
+            <TextField
+              margin="normal"
+              required
+              style = {{width: 275}}
+              name="CharRace"
+              label="Race"
+              id="CharRace"
+            />
+            </Grid>
+            <Grid item xs={3}>
+            <TextField
+              margin="normal"
+              required
+              style = {{width: 275}}
+              name="CharAlign"
+              label="Alignment"
+              id="CharAlign"
+            />
+            </Grid>
+        </Grid>
+      </Box>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         Item Two
@@ -191,7 +246,7 @@ export const CharacterCreate = () => {
         </Grid>
         <Grid item xs={6}>
         <Button
-            //onClick={handleClickOpen}
+            onClick={saveCharacter}
             type="submit"
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
