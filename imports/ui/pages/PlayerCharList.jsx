@@ -43,7 +43,7 @@ export const PlayerCharList = () => {
 	// Moved outside useEffect so other methods can use it
 	const fetchCharacterData = () => {
 		Meteor.call(
-			"character.getNamesByOwner",
+			"character.getCharacterInfoByOwner",
 			loggedInUser,
 			(error, result) => {
 				if (!error) {
@@ -205,7 +205,7 @@ export const PlayerCharList = () => {
 											<ListItem key={character._id}>
 												<ListItemText
 												primary = {character.name}
-												secondary= "text"
+												secondary={`${character.race} ${character.class}`}
 												/>
 											</ListItem>
 										</ListItem>
