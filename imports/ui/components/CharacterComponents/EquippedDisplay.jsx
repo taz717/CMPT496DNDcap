@@ -13,57 +13,39 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Table from "@mui/material/Table";
+import TableCell from "@mui/material/TableCell";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
-export const EquippedDisplay = ({ equipped }) => {
+export const EquippedDisplay = ({ characterData }) => {
+	equipped = characterData.equipped;
+
+	console.log("Equipped:", equipped);
+
 	return (
-		<Box>
-			<Typography variant="h6">Equipped Items</Typography>
-			<Grid container spacing={2}>
-				<Grid item xs={6}>
-					<Typography variant="body1">Armour</Typography>
+		<Paper>
+			<Box sx={{ flexGrow: 1, margin: 1.5 }}>
+				<Typography variant="h6" textAlign="center">
+					Equipped Items
+				</Typography>
+				<Grid container>
+					{Object.entries(equipped).map(([key, value]) => {
+						return (
+							<Grid item xs={4} key={key}>
+								<Table>
+									<TableHead>
+										<TableRow>
+											<TableCell>{key}</TableCell>
+											<TableCell>{value}</TableCell>
+										</TableRow>
+									</TableHead>
+								</Table>
+							</Grid>
+						);
+					})}
 				</Grid>
-				<Grid item xs={6}>
-					{armour.map((armour) => (
-						// display in table
-						<Table>
-							<TableHead>
-								<TableRow>
-									<TableCell>Armour</TableCell>
-									<TableCell>AC</TableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								<TableRow>
-									<TableCell>{armour.armour}</TableCell>
-									<TableCell>Lorem Ipsum</TableCell>
-								</TableRow>
-							</TableBody>
-						</Table>
-					))}
-				</Grid>
-				<Grid item xs={6}>
-					<Typography variant="body1">Weapon</Typography>
-				</Grid>
-				<Grid item xs={6}>
-					{weapon.map((weapon) => (
-						// display in table
-						<Table>
-							<TableHead>
-								<TableRow>
-									<TableCell>Weapon</TableCell>
-									<TableCell>Damage</TableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								<TableRow>
-									<TableCell>{weapon.weapon}</TableCell>
-									<TableCell>Lorem Ipsum</TableCell>
-								</TableRow>
-							</TableBody>
-						</Table>
-					))}
-				</Grid>
-			</Grid>
-		</Box>
+			</Box>
+		</Paper>
 	);
 };

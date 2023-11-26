@@ -24,10 +24,9 @@ import Button from "@mui/material/Button";
 import { Meteor } from "meteor/meteor";
 import { useTracker } from "meteor/react-meteor-data";
 
-// component imports
-import SavingThrowDisplay from "../../components/CharacterComponents/SavingThrowDisplay";
-import EquipmentDisplay from "../../components/CharacterComponents/EquipmentDisplay";
-import EquippedDisplay from "../../components/CharacterComponents/EquippedDisplay";
+// Component imports
+import { DnDCharacterStatsSheet } from "dnd-character-sheets";
+import "dnd-character-sheets/dist/index.css";
 
 export const CharacterDisplayPage = () => {
 	// Get the character id from the URL
@@ -48,52 +47,52 @@ export const CharacterDisplayPage = () => {
 		},
 		details: {
 			age: 0,
-			height: "3'6",
-			weight: "60 lbs",
-			eyes: "Blue",
-			skin: "Tan",
-			hair: "Brown",
+			height: "",
+			weight: "",
+			eyes: "",
+			skin: "",
+			hair: "",
 		},
-		alignment: "Chaotic Good",
+		alignment: "",
 		inspiration: false,
-		ac: 12,
-		initiative: 2,
-		speed: 25,
-		hp: 12,
-		maxHP: 12,
+		ac: 0,
+		initiative: 0,
+		speed: 0,
+		hp: 0,
+		maxHP: 0,
 		deathSaves: {
 			successes: 0,
 			failures: 0,
 		},
 		savingThrows: {
-			strength: -1,
-			dexterity: 8,
-			constitution: 1,
-			intelligence: 2,
-			wisdom: 7,
-			charisma: 5,
+			strength: 0,
+			dexterity: 0,
+			constitution: 0,
+			intelligence: 0,
+			wisdom: 0,
+			charisma: 0,
 		},
-		weaponProficiencies: ["simple", "martial"],
-		armorProficiencies: ["light", "medium", "heavy"],
-		feats: ["lucky", "halfling nimbleness"],
+		weaponProficiencies: ["", ""],
+		armorProficiencies: ["", "", ""],
+		feats: [""],
 		skills: {
-			acrobatics: 2,
-			animalHandling: 2,
-			arcana: 2,
-			athletics: 2,
-			deception: 2,
-			history: 2,
-			insight: 2,
-			intimidation: 2,
-			investigation: 2,
-			medicine: 2,
-			nature: 2,
-			perception: 2,
-			performance: 2,
-			religion: 2,
-			sleightOfHand: 2,
-			stealth: 2,
-			survival: 2,
+			acrobatics: 0,
+			animalHandling: 0,
+			arcana: 0,
+			athletics: 0,
+			deception: 0,
+			history: 0,
+			insight: 0,
+			intimidation: 0,
+			investigation: 0,
+			medicine: 0,
+			nature: 0,
+			perception: 0,
+			performance: 0,
+			religion: 0,
+			sleightOfHand: 0,
+			stealth: 0,
+			survival: 0,
 		},
 		equipped: {
 			armor: [{}],
@@ -101,7 +100,7 @@ export const CharacterDisplayPage = () => {
 		},
 		equipment: [{}],
 		carryWeight: 0,
-		maxCarryWeight: 10,
+		maxCarryWeight: 0,
 		knownSpells: [{}],
 		preparedSpells: [{}],
 	});
@@ -147,18 +146,5 @@ export const CharacterDisplayPage = () => {
 	// If the data is finished loading, display the page
 	// toss all the components into a grid
 
-	return (
-		<Box>
-			<Grid container spacing={2}>
-				<Grid item xs={6}>
-					<Typography variant="h6">Character Name</Typography>
-				</Grid>
-				<Grid item xs={6}>
-					<SavingThrowDisplay
-						savingThrows={characterData.savingThrows}
-					/>
-				</Grid>
-			</Grid>
-		</Box>
-	);
+	return <DnDCharacterStatsSheet />;
 };

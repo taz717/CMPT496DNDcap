@@ -12,61 +12,36 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import TextField from "@mui/material/TextField";
 
-export const SavingThrowDisplay = ({ savingThrows }) => {
+export const SavingThrowDisplay = ({ characterData }) => {
+	savingThrows = characterData.savingThrows;
+
 	return (
-		<Box>
-			<Typography variant="h6">Saving Throws</Typography>
-			<Grid container spacing={2}>
-				<Grid item xs={6}>
-					<Typography variant="body1">Strength</Typography>
+		<Paper sx={{ maxWidth: 1000, maxHeight: 1000 }}>
+			<Box sx={{ flexGrow: 1, margin: 1.5 }}>
+				<Typography variant="h6" textAlign="center">
+					Saving Throws
+				</Typography>
+				<Grid container>
+					{Object.entries(savingThrows).map(([key, value]) => {
+						return (
+							<Grid item xs={4} key={key}>
+								<TextField
+									id={key}
+									label={key}
+									value={value}
+									variant="outlined"
+									size="small"
+									disabled={true}
+									sx={{ margin: 1.5 }}
+								/>
+							</Grid>
+						);
+					})}
 				</Grid>
-				<Grid item xs={6}>
-					<Typography variant="body1">
-						{savingThrows.strength}
-					</Typography>
-				</Grid>
-				<Grid item xs={6}>
-					<Typography variant="body1">Dexterity</Typography>
-				</Grid>
-				<Grid item xs={6}>
-					<Typography variant="body1">
-						{savingThrows.dexterity}
-					</Typography>
-				</Grid>
-				<Grid item xs={6}>
-					<Typography variant="body1">Constitution</Typography>
-				</Grid>
-				<Grid item xs={6}>
-					<Typography variant="body1">
-						{savingThrows.constitution}
-					</Typography>
-				</Grid>
-				<Grid item xs={6}>
-					<Typography variant="body1">Intelligence</Typography>
-				</Grid>
-				<Grid item xs={6}>
-					<Typography variant="body1">
-						{savingThrows.intelligence}
-					</Typography>
-				</Grid>
-				<Grid item xs={6}>
-					<Typography variant="body1">Wisdom</Typography>
-				</Grid>
-				<Grid item xs={6}>
-					<Typography variant="body1">
-						{savingThrows.wisdom}
-					</Typography>
-				</Grid>
-				<Grid item xs={6}>
-					<Typography variant="body1">Charisma</Typography>
-				</Grid>
-				<Grid item xs={6}>
-					<Typography variant="body1">
-						{savingThrows.charisma}
-					</Typography>
-				</Grid>
-			</Grid>
-		</Box>
+			</Box>
+		</Paper>
 	);
 };
