@@ -18,6 +18,7 @@ import { UserChoice } from "./pages/UserChoice.jsx";
 import { PlayerCharList} from "./pages/PlayerCharList.jsx";
 import { DM } from "./pages/DM.jsx";
 import { Character } from "./pages/Character.jsx";
+import { CharacterCreate } from "./pages/CharacterCreate.jsx";
 
 // App/Router for this project, it will be the same thing
 export const App = () => {
@@ -32,6 +33,7 @@ export const App = () => {
 				<Route path="/DM" element={<DM />} />
 				<Route path="/playerCharList" element={<PlayerCharList />} />
 				<Route path="/character/:characterId" element={<Character />} />
+				<Route path="/create" element={<CharacterCreate />} />
 			</Routes>
 		</div>
 	);

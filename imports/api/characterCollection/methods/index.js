@@ -21,6 +21,7 @@ import "./get/getBasicList.js";
 import "./get/getBasicObject.js";
 import "./get/getByName.js";
 import "./get/getNamesByOwner.js";
+import "./get/getCharacterInfoByOwner.js"
 // updates
 import "./update/simpleUpdate.js";
 import "./update/updateList.js";
