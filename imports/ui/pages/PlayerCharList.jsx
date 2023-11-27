@@ -1,4 +1,6 @@
 import React, { useState, useEffect, setState } from "react";
+
+// Material UI imports
 import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -7,17 +9,12 @@ import { useNavigate } from "react-router-dom";
 import { Meteor } from "meteor/meteor";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import Link from "@mui/material/Link";
 import PersonIcon from "@mui/icons-material/Person";
 import Container from "@mui/material/Container";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import TextField from "@mui/material/TextField";
 import ListItemText from "@mui/material/ListItemText";
+
+// Component imports
 
 export const PlayerCharList = () => {
 	const [characterList, setCharacterList] = useState([]);
@@ -61,102 +58,38 @@ export const PlayerCharList = () => {
 	const [open, setOpen] = React.useState(false);
 
 	const handleClickOpen = () => {
-		setOpen(true);
-	};
+		// get owner id
+		const ownerID = Meteor.user({ fields: { username: 1 } })?.username;
 
-	const handleClose = () => {
-		setOpen(false);
-	};
+		// default character
+		let character = {};
+		// add owner id to character
+		character.ownerID = ownerID;
+		// add created date to character
+		character.created = new Date();
 
-	const handleCreate = (event) => {
-		event.preventDefault();
-		const data = new FormData(event.currentTarget);
-		const CharName = data.get("CharName");
-		const CharClass = data.get("CharClass");
-		const CharRace = data.get("CharRace");
-
-		const newCharacter = {
-			name: CharName,
-			ownerID: loggedInUser,
-			class: [CharClass],
-			level: 0,
-			xp: 0,
-			race: CharRace,
-			background: {
-				name: "",
-				description: "",
-			},
-			details: {
-				age: 0,
-				height: "",
-				weight: "",
-				eyes: "",
-				skin: "",
-				hair: "",
-			},
-			alignment: "",
-			inspiration: false,
-			ac: 0,
-			initiative: 0,
-			speed: 0,
-			hp: 0,
-			maxHP: 0,
-			deathSaves: {
-				successes: 0,
-				failures: 0,
-			},
-			savingThrows: {
-				strength: 0,
-				dexterity: 0,
-				constitution: 0,
-				intelligence: 0,
-				wisdom: 0,
-				charisma: 0,
-			},
-			weaponProficiencies: [],
-			armorProficiencies: [],
-			feats: [],
-			skills: {
-				acrobatics: 0,
-				animalHandling: 0,
-				arcana: 0,
-				athletics: 0,
-				deception: 0,
-				history: 0,
-				insight: 0,
-				intimidation: 0,
-				investigation: 0,
-				medicine: 0,
-				nature: 0,
-				perception: 0,
-				performance: 0,
-				religion: 0,
-				sleightOfHand: 0,
-				stealth: 0,
-				survival: 0,
-			},
-			equipped: {
-				armor: [{}],
-				weapons: [{}],
-			},
-			equipment: [{}],
-			carryWeight: 0,
-			maxCarryWeight: 0,
-			knownSpells: [{}],
-			preparedSpells: [{}],
-			createdAt: new Date(),
-		};
-
-		Meteor.call("character.insert", newCharacter, (error, result) => {
-			if (!error) {
-				// Character created successfully, now update the character list
-				fetchCharacterData();
-			} else {
-				console.error("Error creating character:", error);
-			}
-		});
-
-		setOpen(false);
+		// insert char with owner id into collection
+		// via promise to make sure we wait till we have char id
+		new Promise((resolve, reject) => {
+			// Call the Meteor method to insert the character
+			Meteor.call(
+				"character.insertSimple",
+				character,
+				(error, result) => {
+					if (error) return reject(error);
+					resolve(result);
+				}
+			);
+		})
+			// Navigate to the new character page
+			.then((result) => {
+				console.log("Character Data:", result);
+				navigate(`/character/${result}`);
+			})
+			// Log any errors
+			.catch((error) => {
+				console.error("Error fetching character data:", error);
+			});
 	};
 
 	return (
@@ -238,66 +171,6 @@ export const PlayerCharList = () => {
 					</Grid>
 				</Grid>
 			</Box>
-			<Dialog
-				open={open}
-				onClose={handleClose}
-				aria-labelledby="alert-dialog-title"
-				aria-describedby="alert-dialog-description"
-			>
-				<DialogTitle id="alert-dialog-title">
-					{"Create New Character"}
-				</DialogTitle>
-				<DialogContent>
-					<DialogContentText id="alert-dialog-description">
-						Enter thier name, class, and race.
-					</DialogContentText>
-					<Box
-						component="form"
-						onSubmit={handleCreate}
-						noValidate
-						sx={{ mt: 1 }}
-					>
-						<Grid item xs={3}>
-							<TextField
-								margin="normal"
-								required
-								fullWidth
-								style={{ width: 275, p: 5 }}
-								id="CharName"
-								label="Character Name"
-								name="CharName"
-								autoFocus
-							/>
-						</Grid>
-						<Grid item xs={3}>
-							<TextField
-								margin="normal"
-								required
-								style={{ width: 275 }}
-								name="CharClass"
-								label="Class"
-								id="CharClass"
-							/>
-						</Grid>
-						<Grid item xs={3}>
-							<TextField
-								margin="normal"
-								required
-								style={{ width: 275 }}
-								name="CharRace"
-								label="Race"
-								id="CharRace"
-							/>
-							<DialogActions>
-								<Button onClick={handleClose}>Cancel</Button>
-								<Button type="submit" autoFocus>
-									Create
-								</Button>
-							</DialogActions>
-						</Grid>
-					</Box>
-				</DialogContent>
-			</Dialog>
 		</Container>
 	);
 };

@@ -11,21 +11,23 @@
 import React, { useState, useEffect } from "react";
 
 // Material UI imports
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Link from "@mui/material/Link";
-import PersonIcon from "@mui/icons-material/Person";
-import Container from "@mui/material/Container";
-import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
 
 // Meteor imports
 import { Meteor } from "meteor/meteor";
 import { useTracker } from "meteor/react-meteor-data";
 
 // Component imports
-import { DnDCharacterStatsSheet } from "dnd-character-sheets";
+import {
+	DnDCharacterStatsSheet,
+	DnDCharacterProfileSheet,
+	DnDCharacterSpellSheet,
+} from "dnd-character-sheets";
 import "dnd-character-sheets/dist/index.css";
 
 export const CharacterDisplayPage = () => {
@@ -33,82 +35,64 @@ export const CharacterDisplayPage = () => {
 	const characterId = window.location.pathname.split("/")[2];
 	console.log("Character ID:", characterId);
 
-	// Set up state variables
-	const [characterData, setCharacter] = useState({
-		name: "",
-		ownerID: "",
-		class: [],
-		level: 0,
-		xp: 0,
-		race: "",
-		background: {
-			name: "",
-			description: "",
-		},
-		details: {
-			age: 0,
-			height: "",
-			weight: "",
-			eyes: "",
-			skin: "",
-			hair: "",
-		},
-		alignment: "",
-		inspiration: false,
-		ac: 0,
-		initiative: 0,
-		speed: 0,
-		hp: 0,
-		maxHP: 0,
-		deathSaves: {
-			successes: 0,
-			failures: 0,
-		},
-		savingThrows: {
-			strength: 0,
-			dexterity: 0,
-			constitution: 0,
-			intelligence: 0,
-			wisdom: 0,
-			charisma: 0,
-		},
-		weaponProficiencies: ["", ""],
-		armorProficiencies: ["", "", ""],
-		feats: [""],
-		skills: {
-			acrobatics: 0,
-			animalHandling: 0,
-			arcana: 0,
-			athletics: 0,
-			deception: 0,
-			history: 0,
-			insight: 0,
-			intimidation: 0,
-			investigation: 0,
-			medicine: 0,
-			nature: 0,
-			perception: 0,
-			performance: 0,
-			religion: 0,
-			sleightOfHand: 0,
-			stealth: 0,
-			survival: 0,
-		},
-		equipped: {
-			armor: [{}],
-			weapons: [{}],
-		},
-		equipment: [{}],
-		carryWeight: 0,
-		maxCarryWeight: 0,
-		knownSpells: [{}],
-		preparedSpells: [{}],
-	});
+	// states
+	const [character, setCharacter] = useState(loadDefaultCharacter());
 	const [loading, setLoading] = useState(true);
+	const [value, setValue] = React.useState("1");
+
+	const handleChange = (event, newValue) => {
+		setValue(newValue);
+	};
+
+	function updateCharacter(character) {
+		setCharacter(character);
+	}
+
+	const handleSave = (event) => {
+		// Save the character to the database
+		Meteor.call(
+			"character.update",
+			characterId,
+			character,
+			(error, result) => {
+				if (!error) {
+					console.log("Character saved:", result);
+				} else {
+					console.error("Error saving character:", error);
+				}
+			}
+		);
+	};
+
+	// sheets not big enough to warrant their own components
+	const statsSheet = (
+		<DnDCharacterStatsSheet
+			character={character}
+			onCharacterChanged={updateCharacter}
+		/>
+	);
+	const profileSheet = (
+		<DnDCharacterProfileSheet
+			character={character}
+			onCharacterChanged={updateCharacter}
+		/>
+	);
+	const spellSheet = (
+		<DnDCharacterSpellSheet
+			character={character}
+			onCharacterChanged={updateCharacter}
+		/>
+	);
+
+	function loadDefaultCharacter() {
+		let character = {};
+		return character;
+	}
 
 	// Get the current logged in user
 	const loggedInUser = useTracker(() => Meteor.user()?.username);
 	console.log("Logged in user:", loggedInUser);
+	console.log("Character", character);
 
 	// Get the character data from the database
 	useEffect(() => {
@@ -132,11 +116,6 @@ export const CharacterDisplayPage = () => {
 		};
 	}, [characterId]);
 
-	console.log("Character data:", characterData);
-
-	// Get the character's owner
-	const owner = characterData.character?.username;
-
 	// If the data is still loading, display a loading message
 
 	if (loading) {
@@ -146,5 +125,24 @@ export const CharacterDisplayPage = () => {
 	// If the data is finished loading, display the page
 	// toss all the components into a grid
 
-	return <DnDCharacterStatsSheet />;
+	return (
+		<Box sx={{ flexGrow: 1, margin: 1.5 }}>
+			<TabContext value={value}>
+				<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+					<TabList
+						onChange={handleChange}
+						aria-label="lab API tabs example"
+					>
+						<Tab label="Stats" value="1" />
+						<Tab label="Profile" value="2" />
+						<Tab label="Spells" value="3" />
+					</TabList>
+				</Box>
+				<Button onClick={handleSave}>Save</Button>
+				<TabPanel value="1">{statsSheet}</TabPanel>
+				<TabPanel value="2">{profileSheet}</TabPanel>
+				<TabPanel value="3">{spellSheet}</TabPanel>
+			</TabContext>
+		</Box>
+	);
 };

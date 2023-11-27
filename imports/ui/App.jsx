@@ -32,7 +32,10 @@ export const App = () => {
 				<Route path="/choice" element={<UserChoice />} />
 				<Route path="/DM" element={<DM />} />
 				<Route path="/playerCharList" element={<PlayerCharList />} />
-				<Route path="/character/:characterId" element={<Character />} />
+				<Route
+					path="/character/:characterId"
+					element={<CharacterDisplayPage />}
+				/>
 				<Route path="/create" element={<CharacterCreate />} />
 			</Routes>
 		</div>
