@@ -15,7 +15,7 @@ import { Info } from "./pages/Info.jsx";
 import SignIn from "./pages/sign-in/SignIn.js";
 import SignUp from "./pages/account-create/SignUp.js";
 import { UserChoice } from "./pages/UserChoice.jsx";
-import { PlayerCharList } from "./pages/PlayerCharList.jsx";
+import { PlayerCharList } from "./pages/PlayerCharList";
 import { DM } from "./pages/DM.jsx";
 import { Character } from "./pages/Character.jsx";
 import { CharacterCreate } from "./pages/CharacterCreate.jsx";
