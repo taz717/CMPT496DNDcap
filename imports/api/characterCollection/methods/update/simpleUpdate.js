@@ -12,6 +12,22 @@
 // DO NOT USE THIS ON OBJECT OR ARRAY TYPE FIELDS
 // *** WARNING *** ///
 
+// this will work for
+// - name
+// - ownerID
+// - level
+// - xp
+// - race
+// - alignment
+// - inspiration
+// - ac
+// - initiative
+// - speed
+// - hp
+// - maxHp
+// - carryWeight
+// - maxCarryWeight
+
 import { Meteor } from "meteor/meteor";
 import { check } from "meteor/check";
 

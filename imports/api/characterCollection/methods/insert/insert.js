@@ -19,8 +19,6 @@ Meteor.methods({
 
 		// Validate the Object against the schema
 		if (!CharacterCollection.schema.validate(characterObject)) {
-			console.log(CharacterCollection.isValid());
-			console.log(CharacterCollection.validationErrors());
 			throw new Meteor.Error("invalid-character-object");
 		}
 
