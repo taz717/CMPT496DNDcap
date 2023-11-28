@@ -1,7 +1,7 @@
 // Base imports
 import { Routes, Route } from "react-router-dom";
 import React from "react";
-import { Meteor } from 'meteor/meteor';
+import { Meteor } from "meteor/meteor";
 
 // navbar
 // TODO remake this using MUI
@@ -15,14 +15,14 @@ import { Info } from "./pages/Info.jsx";
 import SignIn from "./pages/sign-in/SignIn.js";
 import SignUp from "./pages/account-create/SignUp.js";
 import { UserChoice } from "./pages/UserChoice.jsx";
-import { PlayerCharList} from "./pages/PlayerCharList.jsx";
+import { PlayerCharList } from "./pages/PlayerCharList";
 import { DM } from "./pages/DM.jsx";
 import { Character } from "./pages/Character.jsx";
 import { CharacterCreate } from "./pages/CharacterCreate.jsx";
+import { CharacterDisplayPage } from "./pages/characterDisplay/index.jsx";
 
 // App/Router for this project, it will be the same thing
 export const App = () => {
-	
 	return (
 		<div>
 			<Routes>
@@ -32,7 +32,10 @@ export const App = () => {
 				<Route path="/choice" element={<UserChoice />} />
 				<Route path="/DM" element={<DM />} />
 				<Route path="/playerCharList" element={<PlayerCharList />} />
-				<Route path="/character/:characterId" element={<Character />} />
+				<Route
+					path="/character/:characterId"
+					element={<CharacterDisplayPage />}
+				/>
 				<Route path="/create" element={<CharacterCreate />} />
 			</Routes>
 		</div>

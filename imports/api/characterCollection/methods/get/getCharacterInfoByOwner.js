@@ -24,7 +24,7 @@ Meteor.methods({
 		// get
 		return CharacterCollection.find(
 			{ ownerID: owner },
-			{ fields: { name: 1, race: 1, class: 1 } }
+			{ fields: { name: 1, race: 1, classLevel: 1 } }
 		).fetch();
 	},
 });
