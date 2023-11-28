@@ -1,40 +1,26 @@
 import React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper'
+import Spelldisplay from '../components/SpellDisplay';
+
 
 export const PlayerSpells = () => {
-    const spellData = [
-        {attribute: "Spell Level", value: "0 (Cantrip)"},
-        {attribute: "Spell Attack Modifier", value: "+6 (Intelligence)"},
-        {attribute: "Range", value: "80 feet"},
-        {attribute: "Damage", value: "1d10 Fire"},
-    ];
+  //PLACEHOLDER LIST OF SPELLS REPLACING JSON REF
+  const spells = [
+    {name:'Acid Splash', level:0, school:'Evocation',castingTime: '1 action', range: '60 feet', components:'V,S', concentration: false, duration: 'Instantaneous', desc: "You hurl a bubble of acid..."},
+    {name:'Aid', level:2, school:'Evocation',castingTime: '1 action', range: '30 feet', components: 'V,S,M (a tiny strip of white cloth)', concentration: false, duration: '8 hours', desc: 'Your spells bolsters your allies with thoughness and resolve...'},
+    {name:'Alter Self', level:2, school:'Transmutation',castingTime: '1 action', range: 'Self', components: 'V,S', concentration: true, duration: '1 hour', desc: 'You assume a different form...'},
+  ];
+  //TURN PALCEHOLDERS INTO LIST OF SPELLDISPLAYS
+  const elements = [];
+  for (let i = 0; i < spells.length; i++) {
+    elements.push(<Spelldisplay spell={spells[i]}/>);
+  }
 
-
-    return (
-        <div>
-          <h2>Spells Known</h2>
-          <h3>Firebolt</h3>
-          <TableContainer component={Paper}>
-            <Table>
-              <TableBody>
-                {spellData.map((row) => (
-                  <TableRow key={row.attribute}>
-                    <TableCell component="th" scope="row">
-                      {row.attribute}
-                    </TableCell>
-                    <TableCell>{row.value}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          
-        </div>
-      );
+  return (
+    <div>
+      <h1>
+        Spells Known:
+      </h1>
+      {elements}
+    </div>
+  );
 };
