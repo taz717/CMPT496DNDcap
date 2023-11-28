@@ -7,6 +7,8 @@
 // This is stupid but I can't figure out a better way to make it work
 ///////////////////////////////////////////////////////////////////////////////
 
+// TODO delete unused methods
+
 // deletes
 import "./delete/delete.js";
 import "./delete/deleteListItem.js";

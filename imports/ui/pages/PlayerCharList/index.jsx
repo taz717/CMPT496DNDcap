@@ -131,14 +131,15 @@ export const PlayerCharList = () => {
 													`/character/${character._id}`
 												)
 											}
+											key={character._id}
 										>
 											<ListItemIcon>
 												<PersonIcon />
 											</ListItemIcon>
-											<ListItem key={character._id}>
+											<ListItem>
 												<ListItemText
 													primary={character.name}
-													secondary={`${character.race} ${character.class}`}
+													secondary={`${character.race} ${character.classLevel}`}
 												/>
 											</ListItem>
 										</ListItem>
