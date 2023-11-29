@@ -12,6 +12,7 @@ const denseItemList = {
 };
 
 const Spelldisplay = ({ spell }) => {
+<<<<<<< Updated upstream
     let levelText;
 
     if (spell.level === 0) {
@@ -20,6 +21,8 @@ const Spelldisplay = ({ spell }) => {
         levelText = `Level ${spell.level} ${spell.school}`;
     }
 
+=======
+>>>>>>> Stashed changes
     return (
         <Card>
             <CardContent>
@@ -27,7 +30,11 @@ const Spelldisplay = ({ spell }) => {
                     {spell.name}
                 </Typography>
                 <Typography color="textSecondary" gutterBottom>
+<<<<<<< Updated upstream
                     {levelText}
+=======
+                    Level {spell.level} {spell.school}
+>>>>>>> Stashed changes
                 </Typography>
                 <List>
                     <ListItem style = {denseItemList}>
@@ -49,7 +56,11 @@ const Spelldisplay = ({ spell }) => {
                         </ListItem>
                     )}
                     <ListItem style = {denseItemList}>
+<<<<<<< Updated upstream
                         <ListItemText primary={`Description: ${spell.desc}`} style = {denseItemList} />
+=======
+                        <ListItemText primary={`Description: ${spell.description}`} style = {denseItemList} />
+>>>>>>> Stashed changes
                     </ListItem>
                 {/*Further data entries and logical evaluations will go here, down below*/}
                 </List>
