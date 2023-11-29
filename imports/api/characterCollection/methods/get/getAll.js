@@ -15,6 +15,6 @@ import { CharacterCollection } from "../..";
 Meteor.methods({
 	"character.getAll"() {
 		// get
-		return CharacterCollection.findAsync();
+		return CharacterCollection.find();
 	},
 });
