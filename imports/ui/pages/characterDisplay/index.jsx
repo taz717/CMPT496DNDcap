@@ -30,6 +30,8 @@ import {
 } from "dnd-character-sheets";
 import "dnd-character-sheets/dist/index.css";
 
+import CharacterSpeedDial from "../../components/CharacterComponents/CharacterSpeedDial.jsx";
+
 export const CharacterDisplayPage = () => {
 	// Get the character id from the URL
 	const characterId = window.location.pathname.split("/")[2];
@@ -136,9 +138,10 @@ export const CharacterDisplayPage = () => {
 						<Tab label="Stats" value="1" />
 						<Tab label="Profile" value="2" />
 						<Tab label="Spells" value="3" />
+						<CharacterSpeedDial handleSave={handleSave} />
 					</TabList>
 				</Box>
-				<Button onClick={handleSave}>Save</Button>
+				{/* <Button onClick={handleSave}>Save</Button> */}
 				<TabPanel value="1">{statsSheet}</TabPanel>
 				<TabPanel value="2">{profileSheet}</TabPanel>
 				<TabPanel value="3">{spellSheet}</TabPanel>
