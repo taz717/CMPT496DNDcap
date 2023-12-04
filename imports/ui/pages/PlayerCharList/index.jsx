@@ -164,7 +164,7 @@ export const PlayerCharList = () => {
 							) : (
 								<List sx={{width: "100%"}}>
 									{characterList.map((character) => (
-										<ListItem sx={{border: 1}}
+										<ListItem sx={{border: 1, margin: 0.05}}
 											button
 											onClick={() =>
 												navigate(
