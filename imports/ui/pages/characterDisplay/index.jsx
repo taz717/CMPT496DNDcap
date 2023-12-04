@@ -31,6 +31,7 @@ import {
 import "dnd-character-sheets/dist/index.css";
 
 import CharacterSpeedDial from "../../components/CharacterComponents/CharacterSpeedDial.jsx";
+import DiceHolder from "../../components/DiceHolder.jsx";
 
 export const CharacterDisplayPage = () => {
 	// Get the character id from the URL

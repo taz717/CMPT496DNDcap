@@ -6,6 +6,10 @@ import SpeedDialAction from "@mui/material/SpeedDialAction";
 import SaveIcon from "@mui/icons-material/Save";
 import CasinoIcon from "@mui/icons-material/Casino";
 import ConnectWithoutContactIcon from "@mui/icons-material/ConnectWithoutContact";
+import DialogTitle from "@mui/material/DialogTitle";
+import Dialog from "@mui/material/Dialog";
+
+import DiceHolder from "../DiceHolder";
 
 const actions = [
 	{
@@ -26,14 +30,32 @@ const actions = [
 ];
 
 export default function CharacterSpeedDial({ handleSave }) {
+	const [openDice, setOpenDice] = React.useState(false);
+
 	const handleClick = (operation) => {
 		if (operation === "handleSave") {
 			handleSave();
 		}
+
+		if (operation === "handleDice") {
+			// pop up the dice roller
+			console.log("Dice");
+			setOpenDice(true);
+		}
+	};
+
+	const handleClose = () => {
+		setOpenDice(false);
 	};
 
 	return (
 		<Box sx={{ height: 80, transform: "translateZ(0px)", flexGrow: 1 }}>
+			{openDice && (
+				<Dialog onClose={handleClose} open={openDice}>
+					<DialogTitle>Dice Roller</DialogTitle>
+					<DiceHolder />
+				</Dialog>
+			)}
 			<SpeedDial
 				ariaLabel="Character Speed Dial"
 				sx={{ position: "absolute", bottom: 16, right: 16 }}
