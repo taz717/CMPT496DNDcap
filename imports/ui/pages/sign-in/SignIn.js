@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -45,8 +45,12 @@ const defaultTheme = createTheme();
 export default function SignIn() {
 
   const navigate = useNavigate();
+  const [passwordError, setPasswordError] = useState('');
+  const [usernameError, setUsernameError] = useState('');
 
   const handleSubmit = (event) => {
+    setUsernameError('');
+    setPasswordError('');
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const username = data.get('username');
@@ -54,6 +58,12 @@ export default function SignIn() {
     Meteor.loginWithPassword({username: username}, password, function(err){
       if (err) {
         console.log(err);
+        if (err.reason === 'User not found') {
+          // Set an error message for the username field
+          setUsernameError('Username not found.');
+        } else if (err.reason === 'Incorrect password'){
+          setPasswordError('Incorrect password.');
+        }
       } else {
         console.log("successful signin");
         navigate('/choice');
@@ -94,6 +104,8 @@ export default function SignIn() {
               name="username"
               autoComplete="username"
               autoFocus
+              error={!!usernameError}
+              helperText={usernameError}
             />
             <TextField
               margin="normal"
@@ -104,6 +116,8 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              error={!!passwordError}
+              helperText={passwordError}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}

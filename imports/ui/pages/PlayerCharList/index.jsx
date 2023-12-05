@@ -13,6 +13,13 @@ import PersonIcon from "@mui/icons-material/Person";
 import Container from "@mui/material/Container";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
+import CloseIcon from '@mui/icons-material/Close';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 // Component imports
 
@@ -92,6 +99,37 @@ export const PlayerCharList = () => {
 			});
 	};
 
+	// States and functions for back confirmation box
+    const [open2, setDelete] = React.useState(false);
+	const [selectedCharacterId, setSelectedCharacterId] = React.useState(null);
+
+	const handleDeleteOpen = (characterId) => {
+		setSelectedCharacterId(characterId);
+		setDelete(true);
+	}
+
+    const handleClose = () => {
+		setSelectedCharacterId(null); // Reset the selected character ID
+      	setDelete(false);
+    };
+
+    const deleteCharacter = () => {
+		if (selectedCharacterId) {
+			// Perform the character deletion logic using selectedCharacterId
+			Meteor.call("character.delete", selectedCharacterId, (error, result) => {
+				if (!error) {
+					// If deletion is successful, fetch updated character data
+					fetchCharacterData();
+					handleClose(); // Close the dialog after deletion
+				} else {
+					console.error("Error deleting character:", error);
+				}
+			});
+		}
+	};
+
+
+
 	return (
 		<Container component="main" maxWidth="xs">
 			<Box
@@ -100,6 +138,7 @@ export const PlayerCharList = () => {
 					display: "flex",
 					flexDirection: "column",
 					alignItems: "center",
+					
 				}}
 			>
 				<Typography component="h2" variant="21">
@@ -113,6 +152,7 @@ export const PlayerCharList = () => {
 						display: "flex",
 						flexDirection: "column",
 						alignItems: "center",
+						width: "100%"
 					}}
 				>
 					{loading ? (
@@ -122,9 +162,9 @@ export const PlayerCharList = () => {
 							{characterList.length === 0 ? (
 								<Typography>No characters available</Typography>
 							) : (
-								<List>
+								<List sx={{width: "100%"}}>
 									{characterList.map((character) => (
-										<ListItem
+										<ListItem sx={{border: 1}}
 											button
 											onClick={() =>
 												navigate(
@@ -132,16 +172,30 @@ export const PlayerCharList = () => {
 												)
 											}
 											key={character._id}
+											
 										>
 											<ListItemIcon>
 												<PersonIcon />
 											</ListItemIcon>
-											<ListItem>
-												<ListItemText
-													primary={character.name}
-													secondary={`${character.race} ${character.classLevel}`}
-												/>
-											</ListItem>
+											
+											<ListItemText
+												primary={character.name}
+												secondary={`${character.race} ${character.classLevel}`}	
+												sx={{ minWidth: "70%" }} // Adjust the width as needed
+											/>
+											<ListItemSecondaryAction sx={{ minWidth: "20%" }}>
+												<Button
+												onClick={ () => handleDeleteOpen(character._id)}
+												type="submit"
+												variant="contained"
+												color="error"
+												edge="end"
+												
+												>
+													<CloseIcon/>
+												</Button>
+											</ListItemSecondaryAction>
+											
 										</ListItem>
 									))}
 								</List>
@@ -172,6 +226,28 @@ export const PlayerCharList = () => {
 					</Grid>
 				</Grid>
 			</Box>
+		<Dialog
+        open={open2}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Delete character?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Deleting the character will remove all of its data!
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={deleteCharacter} autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
 		</Container>
+	
 	);
 };

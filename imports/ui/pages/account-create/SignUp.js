@@ -1,4 +1,5 @@
-import * as React from 'react';
+//import * as React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -36,16 +37,34 @@ const defaultTheme = createTheme();
 export default function SignUp() {
 
   const navigate = useNavigate();
+  const [passwordError, setPasswordError] = useState('');
+  const [usernameError, setUsernameError] = useState('');
 
   const handleSubmit = (event) => {
+    setUsernameError('');
+    setPasswordError('');
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const username = data.get('username');
     const password = data.get('password');
+
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
+
+    if (!password.match(passwordRegex)) {
+      setPasswordError('Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one digit, and one special character.');
+      // Handle the error or show a message to the user
+      return;
+    }
+
     //Create new user on submit press
     Accounts.createUser({username: username, password: password}, function(err){
       if (err) {
         console.log(err);
+        if (err.reason === 'Username already exists.') {
+        // Set the username error state
+          setUsernameError('Username is already in use. Please choose a different one.');
+        }
 
       } else {
         console.log("successful signin");
@@ -57,6 +76,7 @@ export default function SignUp() {
       }
     });
   };
+
 
   const handleSignInClick = () => {
     navigate('/');
@@ -90,6 +110,8 @@ export default function SignUp() {
                   label="Username"
                   name="username"
                   autoComplete="username"
+                  error={!!usernameError}
+                  helperText={usernameError}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -101,6 +123,9 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  inputProps={{ pattern: "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$" }}
+                  error={!!passwordError}
+                  helperText={passwordError}
                 />
               </Grid>
             </Grid>
