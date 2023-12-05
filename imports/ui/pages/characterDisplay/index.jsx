@@ -32,7 +32,6 @@ import {
 import "dnd-character-sheets/dist/index.css";
 
 import CharacterSpeedDial from "../../components/CharacterComponents/CharacterSpeedDial.jsx";
-import MonsterSearch from "../../components/MonsterSearch.jsx";
 
 export const CharacterDisplayPage = () => {
 	// Get the character id from the URL
@@ -195,7 +194,6 @@ export const CharacterDisplayPage = () => {
 				<TabPanel value="1">{statsSheet}</TabPanel>
 				<TabPanel value="2">{profileSheet}</TabPanel>
 				<TabPanel value="3">{spellSheet}</TabPanel>
-				<MonsterSearch />
 			</TabContext>
 		</Box>
 	);
