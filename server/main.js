@@ -1,6 +1,8 @@
 import { Meteor } from "meteor/meteor";
 import { CharacterCollection } from "../imports/api/characterCollection";
+import { RoomsCollection } from "../imports/api/rooms";
 import "../imports/api/characterCollection/methods";
+import "../imports/api/rooms/methods";
 
 Meteor.startup(async () => {
 	console.log("Server started!");
@@ -10,6 +12,11 @@ Meteor.startup(async () => {
 	Meteor.publish("CharacterCollection", function () {
 		return CharacterCollection.find();
 	});
+
+	Meteor.publish("rooms", function () {
+		return RoomsCollection.find();
+	});
+
 
 	// publish a single character
 	Meteor.publish("Character", function (characterID) {
