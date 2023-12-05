@@ -6,33 +6,43 @@ import Textfield from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
 
-import { getMonsters } from "../../api/DnDCalls";
+import { getMonsters, getMonster } from "../../api/DnDCalls";
 import { useEffect } from "react";
+
+import MonsterDisplay from "./MonsterDisplay";
 
 export default function MonsterSearch() {
 	const [monster, setMonster] = React.useState("");
 	const [monsterData, setMonsterData] = React.useState([]);
+	const [monsterInfo, setMonsterInfo] = React.useState([]);
 
 	useEffect(() => {
-		const monsterData = localStorage.getItem("monsterData");
-		if (monsterData) {
-			setMonsterData(JSON.parse(monsterData));
-		}
 		getMonsters().then((data) => {
-			setMonsterData(data);
-			localStorage.setItem("monsterData", JSON.stringify(data));
+			console.log(data.results);
+			setMonsterData(data.results);
 		});
 	}, []);
 
-	// const handleChange = (event) => {
-	// 	setMonster(event.target.value);
-	// };
+	const handleSearch = () => {
+		monsterData.forEach((item) => {
+			if (item.name === monster) {
+				getMonster(item.url).then((data) => {
+					setMonsterInfo(data);
+					console.log(data);
+				});
+			}
+		});
+	};
 
 	return (
 		<Paper>
 			<Autocomplete
 				id="monster-search"
-				options={monsterData.results.map((option) => option.name)}
+				value={monster}
+				onChange={(event, newValue) => {
+					setMonster(newValue);
+				}}
+				options={monsterData.map((option) => option.name)}
 				renderInput={(params) => (
 					<Textfield
 						{...params}
@@ -42,7 +52,15 @@ export default function MonsterSearch() {
 					/>
 				)}
 			/>
-			{/* <Button variant="contained">Search</Button> */}
+			<Button variant="contained" onClick={handleSearch}>
+				Search
+			</Button>
+
+			{Object.keys(monsterInfo).length > 0 && (
+				<Box>
+					<MonsterDisplay monsterInfo={monsterInfo} />
+				</Box>
+			)}
 		</Paper>
 	);
 }
