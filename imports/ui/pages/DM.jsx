@@ -16,6 +16,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import ListItemIcon from "@mui/material/ListItemIcon";
+import Autocomplete from "@mui/material/Autocomplete";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemSecondaryAction from "@mui/material/ListItemSecondaryAction";
 import List from "@mui/material/List";
@@ -23,11 +24,72 @@ import ListItem from "@mui/material/ListItem";
 import CloseIcon from "@mui/icons-material/Close";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { getMonsters, getMonster } from "../../api/DnDCalls";
+import { useEffect } from "react";
 
 import MonsterSearch from "../components/MonsterSearch.jsx";
 
 export const DM = () => {
 	navigate = useNavigate();
+
+  const [monster, setMonster] = React.useState("");
+	const [monsterData, setMonsterData] = React.useState([]);
+	const [monsterInfo, setMonsterInfo] = React.useState([]);
+
+	useEffect(() => {
+		getMonsters().then((data) => {
+			console.log(data.results);
+			setMonsterData(data.results);
+		});
+	}, []);
+
+	const handleSearch = () => {
+		monsterData.forEach((item) => {
+			if (item.name === monster) {
+				getMonster(item.url).then((data) => {
+					setMonsterInfo(data);
+					//console.log(data);
+          addMonsterToEncounter(data);
+				});
+			}
+		});
+	};
+
+  const addMonsterToEncounter = (monsterInstance) => {
+    const baseName = monsterInstance.name;
+    let newName = baseName;
+  
+    // Check if the base name already exists in the encounterList
+    const existingNames = encounterList.map((character) =>
+    character.isMonster && character.name.startsWith(baseName)
+      ? character.name
+      : null
+    );
+  
+    // If the base name already exists, append a number to make it unique
+    let counter = 2;
+    while (existingNames.includes(newName)) {
+      newName = `${baseName} ${counter}`;
+      counter++;
+    }
+
+      // Create the monster object with the required properties
+  const monsterToAdd = {
+    name: newName,
+    isMonster: true,
+    initialHP: monsterInstance.hit_points, // Replace 'hp' with the actual property in your monster object
+  };
+
+
+  // Add the unique monster name to the encounterList
+  setEncounterList((prevList) => [...prevList, monsterToAdd]);
+  };
+
+  const handleHPChange = (event, index) => {
+    const updatedEncounterList = [...encounterList];
+    updatedEncounterList[index].initialHP = event.target.value;
+    setEncounterList(updatedEncounterList);
+  };
 
 	const backClick = (event) => {
 		navigate("/choice");
@@ -171,10 +233,11 @@ export const DM = () => {
 						<MonsterSearch />
 					</CustomTabPanel>
 					<CustomTabPanel value={value} index={1}>
-						<div style={{ display: "flex" }}>
+						<div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div style={{ display: "flex", alignItems: "center" }}>
 							<TextField
 								sx={{
-									width: "20%", // Adjust the width as needed
+									width: "60%", // Adjust the width as needed
 								}}
 								id="roomName"
 								label="RoomName"
@@ -186,8 +249,29 @@ export const DM = () => {
 							<Button onClick={handleAccessRoom}>
 								Access Room
 							</Button>
-						</div>
-
+              </div>
+              <div style={{ display: "flex", alignItems: "center" }}>
+            <Autocomplete
+              id="monster-search"
+              value={monster}
+              onChange={(event, newValue) => {
+                setMonster(newValue);
+              }}
+              options={monsterData.map((option) => option.name)}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Monster"
+                  variant="outlined"
+                  sx={{width: "300px"}}
+                />
+              )}
+            />
+            <Button onClick={handleSearch}>
+              Add Monster
+            </Button>
+            </div>
+            </div>
 						<Box
 							sx={{
 								maxHeight: "400px",
@@ -207,16 +291,29 @@ export const DM = () => {
 								<List sx={{ width: "70%" }}>
 									{encounterList.map((character, index) => (
 										<ListItem
-											sx={{ border: 1, margin: 0.25 }}
+											sx={{ border: 1, margin: 0.25, padding: '12px' }}
 											button
 											key={index}
 										>
 											<ListItemText
-												primary={`${
-													index + 1
-												}. ${character}`}
-												sx={{ minWidth: "70%" }} // Adjust the width as needed
-											/>
+                        primary={`${
+                          index + 1
+                        }. ${character.isMonster ? character.name : character}`}
+                        sx={{ minWidth: "70%" }}
+                      />
+                      {character.isMonster && ( // Check if it's a monster
+                        <ListItemSecondaryAction sx={{ minWidth: "70%", width: "50px" }}>
+                          
+                          <TextField
+                          sx={{ width: "15%", marginLeft: "auto" }}
+                            label="HP"
+                            autoFocus  
+                            size="small" 
+                            value={character.initialHP || ""}
+                            onChange={(e) => handleHPChange(e, index)}
+                          />
+                        </ListItemSecondaryAction>
+                      )}
 											<ListItemSecondaryAction
 												sx={{ minWidth: "20%" }}
 											>
