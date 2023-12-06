@@ -44,7 +44,7 @@ export const CharacterDisplayPage = () => {
 	const [loading, setLoading] = useState(true);
 	const [value, setValue] = React.useState("1");
 	const [charName, setCharName] = React.useState("");
-	const [roomName, setRoomName] = React.useState("");
+	//const [roomName, setRoomName] = React.useState("");
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
@@ -57,6 +57,7 @@ export const CharacterDisplayPage = () => {
 	useEffect(() => {
 		// Update the character name for the room whenever the character changes
 		setCharName(character.name);
+		
 	}, [character]);
 
 	const handleSave = (event) => {
@@ -75,27 +76,27 @@ export const CharacterDisplayPage = () => {
 		);
 	};
 
-	const handleRoomJoin = () => {
-		//setCharName(character.name);
-		Meteor.call("rooms.createOrJoinRoom", roomName, charName, (error) => {
-			if (error) {
-				console.error(error.reason);
-			} else {
-				console.log("Room joined successfully");
-			}
-		});
-	};
+	// const handleRoomJoin = () => {
+	// 	//setCharName(character.name);
+	// 	Meteor.call("rooms.createOrJoinRoom", roomName, charName, (error) => {
+	// 		if (error) {
+	// 			console.error(error.reason);
+	// 		} else {
+	// 			console.log("Room joined successfully");
+	// 		}
+	// 	});
+	// };
 
-	const leaveRoom = () => {
-		Meteor.call("rooms.leaveRoom", roomName, charName, (error, result) => {
-			if (error) {
-				console.error(error);
-			} else {
-				console.log("Left room successfully");
-				// Handle any additional logic after leaving the room
-			}
-		});
-	};
+	// const leaveRoom = () => {
+	// 	Meteor.call("rooms.leaveRoom", roomName, charName, (error, result) => {
+	// 		if (error) {
+	// 			console.error(error);
+	// 		} else {
+	// 			console.log("Left room successfully");
+	// 			// Handle any additional logic after leaving the room
+	// 		}
+	// 	});
+	// };
 
 	// sheets not big enough to warrant their own components
 	const statsSheet = (
@@ -169,10 +170,11 @@ export const CharacterDisplayPage = () => {
 						<Tab label="Stats" value="1" />
 						<Tab label="Profile" value="2" />
 						<Tab label="Spells" value="3" />
-						<CharacterSpeedDial handleSave={handleSave} />
+						
+						<CharacterSpeedDial charName={charName} handleSave={handleSave} />
 					</TabList>
 				</Box>
-				<div
+				{/* <div
 					style={{ display: "flex", justifyContent: "space-between" }}
 				>
 					<div style={{ display: "flex" }}>
@@ -190,7 +192,7 @@ export const CharacterDisplayPage = () => {
 						<Button onClick={handleRoomJoin}>Join Room</Button>
 						<Button onClick={leaveRoom}>Leave Room</Button>
 					</div>
-				</div>
+				</div> */}
 
 				<TabPanel value="1">{statsSheet}</TabPanel>
 				<TabPanel value="2">{profileSheet}</TabPanel>
