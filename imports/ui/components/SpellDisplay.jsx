@@ -11,37 +11,37 @@ const denseItemList = {
     marginBottom: '0px',
 };
 
-const Spelldisplay = ({ spell }) => {
+const SpellDisplay = ({ spellInfo }) => {
     return (
         <Card>
             <CardContent>
                 <Typography variant='h5' component='div'>
-                    {spell.name}
+                    {spellInfo.name}
                 </Typography>
                 <Typography color="textSecondary" gutterBottom>
-                    Level {spell.level} {spell.school}
+                    Level {spellInfo.level} {spellInfo.school.name}
                 </Typography>
                 <List>
                     <ListItem style = {denseItemList}>
-                        <ListItemText primary={`Casting Time: ${spell.castingTime}`} style = {denseItemList} />
+                        <ListItemText primary={`Casting Time: ${spellInfo.casting_time}`} style = {denseItemList} />
                     </ListItem>
                     <ListItem style = {denseItemList}>
-                        <ListItemText primary={`Range: ${spell.range}`} style = {denseItemList} />
+                        <ListItemText primary={`Range: ${spellInfo.range}`} style = {denseItemList} />
                     </ListItem>
                     <ListItem style = {denseItemList}>
-                        <ListItemText primary={`Components: ${spell.components}`} style = {denseItemList} />
+                        <ListItemText primary={`Components: ${spellInfo.components}`} style = {denseItemList} />
                     </ListItem>
                     {spell.concentration ? (
                         <ListItem style = {denseItemList}>
-                            <ListItemText primary={`Duration: Concentration, up to ${spell.duration}`} style = {denseItemList} />
+                            <ListItemText primary={`Duration: Concentration, up to ${spellInfo.duration}`} style = {denseItemList} />
                         </ListItem>
                     ) : (
                         <ListItem style = {denseItemList}>
-                            <ListItemText primary={`Duration: ${spell.duration}`} style = {denseItemList} />
+                            <ListItemText primary={`Duration: ${spellInfo.duration}`} style = {denseItemList} />
                         </ListItem>
                     )}
                     <ListItem style = {denseItemList}>
-                        <ListItemText primary={`Description: ${spell.description}`} style = {denseItemList} />
+                        <ListItemText primary={`Description: ${spellInfo.desc}`} style = {denseItemList} />
                     </ListItem>
                 {/*Further data entries and logical evaluations will go here, down below*/}
                 </List>
@@ -50,4 +50,4 @@ const Spelldisplay = ({ spell }) => {
     );
 };
 
-export default Spelldisplay;
+export default SpellDisplay;
