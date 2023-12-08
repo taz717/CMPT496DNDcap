@@ -2,6 +2,7 @@ import React from 'react';
 import Spelldisplay from '../components/SpellDisplay';
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 export const PlayerSpells = () => {
   //PLACEHOLDER LIST OF SPELLS REPLACING JSON REF
@@ -38,6 +39,21 @@ const spellData = {
 };
 
 export const PlayerSpells = () => {
+=======
+const spellData = {
+  name: 'Fire Bolt',
+  level: 'Cantrip',
+  school: 'Evocation',
+  castingTime:'1 action',
+  range: '120 feet',
+  components: 'V, S',
+  concentration: false,
+  duration: 'Instantaneous',
+  description: 'Bottom Text'
+};
+
+export const PlayerSpells = () => {
+>>>>>>> Stashed changes
     return (
         <Spelldisplay spell = {spellData}/>
       );
