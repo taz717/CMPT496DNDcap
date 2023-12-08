@@ -307,7 +307,8 @@ export const DM = () => {
                           <TextField
                           sx={{ width: "15%", marginLeft: "auto" }}
                             label="HP"
-                            autoFocus  
+                            
+							type="number"
                             size="small" 
                             value={character.initialHP || ""}
                             onChange={(e) => handleHPChange(e, index)}

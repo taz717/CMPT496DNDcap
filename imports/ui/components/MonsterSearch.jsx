@@ -48,7 +48,7 @@ export default function MonsterSearch() {
 						{...params}
 						label="Monster"
 						variant="outlined"
-						sx={{ margin: 1 }}
+						sx={{ margin: 1, width: "98%" }}
 					/>
 				)}
 			/>
