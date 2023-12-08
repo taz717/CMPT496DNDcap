@@ -28,11 +28,12 @@ import { getMonsters, getMonster } from "../../api/DnDCalls";
 import { useEffect } from "react";
 
 import MonsterSearch from "../components/MonsterSearch.jsx";
+import SpellSearch from "../components/SpellSearch.jsx";
 
 export const DM = () => {
 	navigate = useNavigate();
 
-  const [monster, setMonster] = React.useState("");
+	const [monster, setMonster] = React.useState("");
 	const [monsterData, setMonsterData] = React.useState([]);
 	const [monsterInfo, setMonsterInfo] = React.useState([]);
 
@@ -49,47 +50,46 @@ export const DM = () => {
 				getMonster(item.url).then((data) => {
 					setMonsterInfo(data);
 					//console.log(data);
-          addMonsterToEncounter(data);
+					addMonsterToEncounter(data);
 				});
 			}
 		});
 	};
 
-  const addMonsterToEncounter = (monsterInstance) => {
-    const baseName = monsterInstance.name;
-    let newName = baseName;
-  
-    // Check if the base name already exists in the encounterList
-    const existingNames = encounterList.map((character) =>
-    character.isMonster && character.name.startsWith(baseName)
-      ? character.name
-      : null
-    );
-  
-    // If the base name already exists, append a number to make it unique
-    let counter = 2;
-    while (existingNames.includes(newName)) {
-      newName = `${baseName} ${counter}`;
-      counter++;
-    }
+	const addMonsterToEncounter = (monsterInstance) => {
+		const baseName = monsterInstance.name;
+		let newName = baseName;
 
-      // Create the monster object with the required properties
-  const monsterToAdd = {
-    name: newName,
-    isMonster: true,
-    initialHP: monsterInstance.hit_points, // Replace 'hp' with the actual property in your monster object
-  };
+		// Check if the base name already exists in the encounterList
+		const existingNames = encounterList.map((character) =>
+			character.isMonster && character.name.startsWith(baseName)
+				? character.name
+				: null
+		);
 
+		// If the base name already exists, append a number to make it unique
+		let counter = 2;
+		while (existingNames.includes(newName)) {
+			newName = `${baseName} ${counter}`;
+			counter++;
+		}
 
-  // Add the unique monster name to the encounterList
-  setEncounterList((prevList) => [...prevList, monsterToAdd]);
-  };
+		// Create the monster object with the required properties
+		const monsterToAdd = {
+			name: newName,
+			isMonster: true,
+			initialHP: monsterInstance.hit_points, // Replace 'hp' with the actual property in your monster object
+		};
 
-  const handleHPChange = (event, index) => {
-    const updatedEncounterList = [...encounterList];
-    updatedEncounterList[index].initialHP = event.target.value;
-    setEncounterList(updatedEncounterList);
-  };
+		// Add the unique monster name to the encounterList
+		setEncounterList((prevList) => [...prevList, monsterToAdd]);
+	};
+
+	const handleHPChange = (event, index) => {
+		const updatedEncounterList = [...encounterList];
+		updatedEncounterList[index].initialHP = event.target.value;
+		setEncounterList(updatedEncounterList);
+	};
 
 	const backClick = (event) => {
 		navigate("/choice");
@@ -230,48 +230,72 @@ export const DM = () => {
 						</Tabs>
 					</Box>
 					<CustomTabPanel value={value} index={0}>
-						<MonsterSearch />
+						<Box margin={1.5}>
+							<MonsterSearch />
+						</Box>
+						<Box margin={1.5}>
+							<SpellSearch />
+						</Box>
 					</CustomTabPanel>
 					<CustomTabPanel value={value} index={1}>
-						<div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div style={{ display: "flex", alignItems: "center" }}>
-							<TextField
-								sx={{
-									width: "60%", // Adjust the width as needed
+						<div
+							style={{
+								display: "flex",
+								justifyContent: "space-between",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									alignItems: "center",
 								}}
-								id="roomName"
-								label="RoomName"
-								name="roomName"
-								value={roomName}
-								autoFocus
-								onChange={(e) => setRoomName(e.target.value)}
-							/>
-							<Button onClick={handleAccessRoom}>
-								Access Room
-							</Button>
-              </div>
-              <div style={{ display: "flex", alignItems: "center" }}>
-            <Autocomplete
-              id="monster-search"
-              value={monster}
-              onChange={(event, newValue) => {
-                setMonster(newValue);
-              }}
-              options={monsterData.map((option) => option.name)}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Monster"
-                  variant="outlined"
-                  sx={{width: "300px"}}
-                />
-              )}
-            />
-            <Button onClick={handleSearch}>
-              Add Monster
-            </Button>
-            </div>
-            </div>
+							>
+								<TextField
+									sx={{
+										width: "60%", // Adjust the width as needed
+									}}
+									id="roomName"
+									label="RoomName"
+									name="roomName"
+									value={roomName}
+									autoFocus
+									onChange={(e) =>
+										setRoomName(e.target.value)
+									}
+								/>
+								<Button onClick={handleAccessRoom}>
+									Access Room
+								</Button>
+							</div>
+							<div
+								style={{
+									display: "flex",
+									alignItems: "center",
+								}}
+							>
+								<Autocomplete
+									id="monster-search"
+									value={monster}
+									onChange={(event, newValue) => {
+										setMonster(newValue);
+									}}
+									options={monsterData.map(
+										(option) => option.name
+									)}
+									renderInput={(params) => (
+										<TextField
+											{...params}
+											label="Monster"
+											variant="outlined"
+											sx={{ width: "300px" }}
+										/>
+									)}
+								/>
+								<Button onClick={handleSearch}>
+									Add Monster
+								</Button>
+							</div>
+						</div>
 						<Box
 							sx={{
 								maxHeight: "400px",
@@ -291,30 +315,50 @@ export const DM = () => {
 								<List sx={{ width: "70%" }}>
 									{encounterList.map((character, index) => (
 										<ListItem
-											sx={{ border: 1, margin: 0.25, padding: '12px' }}
+											sx={{
+												border: 1,
+												margin: 0.25,
+												padding: "12px",
+											}}
 											button
 											key={index}
 										>
 											<ListItemText
-                        primary={`${
-                          index + 1
-                        }. ${character.isMonster ? character.name : character}`}
-                        sx={{ minWidth: "70%" }}
-                      />
-                      {character.isMonster && ( // Check if it's a monster
-                        <ListItemSecondaryAction sx={{ minWidth: "70%", width: "50px" }}>
-                          
-                          <TextField
-                          sx={{ width: "15%", marginLeft: "auto" }}
-                            label="HP"
-                            
-							type="number"
-                            size="small" 
-                            value={character.initialHP || ""}
-                            onChange={(e) => handleHPChange(e, index)}
-                          />
-                        </ListItemSecondaryAction>
-                      )}
+												primary={`${index + 1}. ${
+													character.isMonster
+														? character.name
+														: character
+												}`}
+												sx={{ minWidth: "70%" }}
+											/>
+											{character.isMonster && ( // Check if it's a monster
+												<ListItemSecondaryAction
+													sx={{
+														minWidth: "70%",
+														width: "50px",
+													}}
+												>
+													<TextField
+														sx={{
+															width: "15%",
+															marginLeft: "auto",
+														}}
+														label="HP"
+														type="number"
+														size="small"
+														value={
+															character.initialHP ||
+															""
+														}
+														onChange={(e) =>
+															handleHPChange(
+																e,
+																index
+															)
+														}
+													/>
+												</ListItemSecondaryAction>
+											)}
 											<ListItemSecondaryAction
 												sx={{ minWidth: "20%" }}
 											>

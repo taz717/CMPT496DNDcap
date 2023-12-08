@@ -57,7 +57,7 @@ export default function MonsterSearch() {
 			</Button>
 
 			{Object.keys(monsterInfo).length > 0 && (
-				<Box>
+				<Box paddingTop='15px'>
 					<MonsterDisplay monsterInfo={monsterInfo} />
 				</Box>
 			)}
