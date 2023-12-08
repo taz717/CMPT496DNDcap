@@ -25,7 +25,7 @@ export default function SpellSearch() {
 
 	const handleSearch = () => {
 		spellData.forEach((item) => {
-			if (item.name === monster) {
+			if (item.name === spell) {
 				getSpell(item.url).then((data) => {
 					setSpellInfo(data);
 					console.log(data);
@@ -57,7 +57,7 @@ export default function SpellSearch() {
 			</Button>
 
 			{Object.keys(spellInfo).length > 0 && (
-				<Box paddingTop='15px'>
+				<Box paddingTop="15px">
 					<SpellDisplay spellInfo={spellInfo} />
 				</Box>
 			)}

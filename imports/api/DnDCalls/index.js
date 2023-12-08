@@ -18,7 +18,7 @@ export async function getSpells() {
 	return data;
 }
 
-export async function getSepll(spellURL) {
+export async function getSpell(spellURL) {
 	const response = await fetch(`${baseURL}${spellURL}`);
 	const data = await response.json();
 	return data;
